@@ -1,0 +1,43 @@
+# Scratch and temporary directories
+scratch/
+.history/
+*.tmp
+*.temp
+
+# Operating System Files
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Microsoft Office temporary / lock files
+~$*.docx
+~$*.doc
+~$*.pptx
+~$*.xlsx
+
+# Python cache & virtual environments
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.env
+.venv
+venv/
+env/
+
+# Node / Web artifacts
+node_modules/
+.next/
+dist/
+build/
+.npm
+.yarn/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# IDE and Editor files
+.vscode/
+.idea/
+*.swp
+*.swo

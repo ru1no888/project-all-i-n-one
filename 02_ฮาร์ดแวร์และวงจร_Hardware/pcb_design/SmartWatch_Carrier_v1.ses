@@ -1,0 +1,355 @@
+(session "SmartWatch_Carrier_v1.ses"
+  (base_design "SmartWatch_Carrier_v1.dsn")
+  (placement
+    (resolution um 10)
+    (component "Module:Seeed_XIAO"
+      (place U1 1000000 -950000 back 180)
+    )
+    (component "Connector_PinHeader_2.54mm:PinHeader_1x07_P2.54mm_Vertical"
+      (place DISP1 1000000 -1065000 front 0)
+    )
+    (component "Connector_PinHeader_2.54mm:PinHeader_1x08_P2.54mm_Vertical"
+      (place U3 865000 -960000 back 180)
+    )
+    (component "Connector_JST:JST_SH_BM06B-SRSS-TB_1x06-1MP_P1.00mm_Vertical"
+      (place "U2_CONN" 1135000 -980000 back 180)
+    )
+    (component "Buzzer_Beeper:Buzzer_9x5.5mm"
+      (place BZ1 895000 -865000 back 180)
+    )
+    (component "Package_TO_SOT_SMD:SOT-23"
+      (place Q1 935000 -880000 back 180)
+    )
+    (component "Resistor_SMD:R_0805_2012Metric"
+      (place R3 935000 -915000 back 180)
+      (place R4 895000 -915000 back 180)
+      (place R1 1110000 -870000 back 180)
+      (place R2 1110000 -900000 back 180)
+      (place C1 1110000 -930000 back 180)
+    )
+    (component "Resistor_SMD:R_1206_3216Metric"
+      (place F1 915000 -1125000 back 180)
+    )
+    (component "Button_Switch_SMD:SW_SPDT_PCM12"
+      (place SW1 965000 -1125000 back 180)
+    )
+    (component "Connector_JST:JST_PH_B2B-PH-K_1x02_P2.00mm_Vertical"
+      (place J1 1025000 -1135000 back 180)
+    )
+    (component "Diode_SMD:D_SMA"
+      (place D1 1085000 -1125000 back 180)
+    )
+  )
+  (was_is
+  )
+  (routes 
+    (resolution um 10)
+    (parser
+      (host_cad "KiCad's Pcbnew")
+      (host_version "10.0.5")
+    )
+    (library_out 
+      (padstack "Via[0-1]_600:300_um"
+        (shape
+          (circle F.Cu 6000 0 0)
+        )
+        (shape
+          (circle B.Cu 6000 0 0)
+        )
+        (attach off)
+      )
+    )
+    (network_out 
+      (net "5V_SYS"
+        (wire
+          (path B.Cu 7500
+            1101000 -1125000
+            1145000 -1125000
+            1145000 -873800
+            1077000 -873800
+          )
+          (type protect)
+        )
+      )
+      (net "3V3_SYS"
+        (wire
+          (path B.Cu 4500
+            923800 -865000
+            895000 -865000
+            895000 -847000
+          )
+          (type protect)
+        )
+        (wire
+          (path B.Cu 4500
+            923800 -924600
+            923800 -865000
+            865000 -865000
+            865000 -871100
+          )
+          (type protect)
+        )
+        (wire
+          (path B.Cu 4500
+            1077000 -924600
+            923800 -924600
+            923800 -1065000
+          )
+          (type protect)
+        )
+      )
+      (net "GND_SYS"
+        (wire
+          (path F.Cu 2500
+            949200 -1065000
+            938933 -1065000
+          )
+        )
+        (wire
+          (path F.Cu 2500
+            938933 -1065000
+            938933 -1061149
+            932517 -1054733
+            896233 -1054733
+            865000 -1023500
+          )
+        )
+        (wire
+          (path B.Cu 4500
+            1110000 -909000
+            1110000 -939000
+          )
+          (type protect)
+        )
+        (wire
+          (path B.Cu 4500
+            886000 -915000
+            865000 -915000
+          )
+          (type protect)
+        )
+        (wire
+          (path B.Cu 4500
+            944500 -889000
+            944500 -899200
+            1077000 -899200
+          )
+          (type protect)
+        )
+        (wire
+          (path B.Cu 5500
+            1135000 -965000
+            1077000 -899200
+          )
+          (type protect)
+        )
+        (wire
+          (path B.Cu 5500
+            865000 -896500
+            865000 -1023500
+          )
+          (type protect)
+        )
+        (wire
+          (path B.Cu 5500
+            1035000 -1135000
+            1077000 -1135000
+            1077000 -899200
+          )
+          (type protect)
+        )
+      )
+      (net "BAT_OUT+"
+        (wire
+          (path B.Cu 7500
+            1015000 -1135000
+            1015000 -1145000
+            902000 -1145000
+            902000 -1125000
+          )
+          (type protect)
+        )
+      )
+      (net "SW_IN"
+        (wire
+          (path B.Cu 7500
+            928000 -1125000
+            950000 -1125000
+          )
+          (type protect)
+        )
+      )
+      (net "BAT_SW+"
+        (wire
+          (path B.Cu 5500
+            1069000 -1125000
+            1120000 -1125000
+            1120000 -879000
+            1110000 -879000
+          )
+          (type protect)
+        )
+        (wire
+          (path B.Cu 7500
+            965000 -1125000
+            1069000 -1125000
+          )
+          (type protect)
+        )
+      )
+      (net "ADC_BAT"
+        (wire
+          (path B.Cu 3500
+            923000 -924600
+            923000 -845000
+            1110000 -845000
+            1110000 -921000
+          )
+          (type protect)
+        )
+      )
+      (net "HUB_MFIO"
+        (wire
+          (path B.Cu 3500
+            923000 -873800
+            1020000 -873800
+            1020000 -890000
+            1085000 -890000
+            1085000 -995000
+            1135000 -995000
+          )
+          (type protect)
+        )
+      )
+      (net "HUB_RESET"
+        (wire
+          (path B.Cu 3500
+            923000 -899200
+            980000 -899200
+            980000 -905000
+            1075000 -905000
+            1075000 -1005000
+            1135000 -1005000
+          )
+          (type protect)
+        )
+      )
+      (net "I2C_SDA"
+        (wire
+          (path B.Cu 3500
+            923000 -975400
+            1050000 -975400
+            1050000 -975000
+            1135000 -975000
+          )
+          (type protect)
+        )
+        (wire
+          (path B.Cu 3500
+            923000 -975400
+            880000 -975400
+            880000 -947300
+            865000 -947300
+          )
+          (type protect)
+        )
+      )
+      (net "I2C_SCL"
+        (wire
+          (path B.Cu 3500
+            923000 -1000800
+            1040000 -1000800
+            1040000 -985000
+            1135000 -985000
+          )
+          (type protect)
+        )
+        (wire
+          (path B.Cu 3500
+            923000 -1000800
+            865000 -1000800
+            865000 -921900
+          )
+          (type protect)
+        )
+      )
+      (net "TFT_DC"
+        (wire
+          (path F.Cu 3500
+            923000 -1026200
+            923000 -1045000
+            1025400 -1045000
+            1025400 -1065000
+          )
+          (type protect)
+        )
+      )
+      (net "TFT_RST"
+        (wire
+          (path F.Cu 3500
+            1077000 -1026200
+            1076200 -1040000
+            1076200 -1065000
+          )
+          (type protect)
+        )
+      )
+      (net "TFT_SCK"
+        (wire
+          (path B.Cu 3500
+            1077000 -1000800
+            974600 -1000800
+            974600 -1065000
+          )
+          (type protect)
+        )
+      )
+      (net "TFT_MOSI"
+        (wire
+          (path F.Cu 3500
+            1077000 -950000
+            1000000 -950000
+            1000000 -1065000
+          )
+          (type protect)
+        )
+      )
+      (net "BUZZER_CTL"
+        (wire
+          (path B.Cu 3500
+            923000 -950000
+            944000 -950000
+            944000 -915000
+          )
+          (type protect)
+        )
+      )
+      (net "Q1_BASE"
+        (wire
+          (path B.Cu 3500
+            926000 -915000
+            925500 -889000
+          )
+          (type protect)
+        )
+        (wire
+          (path B.Cu 3500
+            926000 -915000
+            904000 -915000
+          )
+          (type protect)
+        )
+      )
+      (net "BUZZER_NEG"
+        (wire
+          (path B.Cu 4000
+            935000 -871000
+            895000 -871000
+            895000 -883000
+          )
+          (type protect)
+        )
+      )
+    )
+  )
+)

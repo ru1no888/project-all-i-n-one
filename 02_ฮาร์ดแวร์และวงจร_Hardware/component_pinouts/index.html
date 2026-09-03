@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ผังขาและรูปภาพอุปกรณ์ทุกชิ้น (SmartWatch Hardware Pinout Guide)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0f131a;
+            --card-bg: #1a202c;
+            --card-border: #2d3748;
+            --accent-blue: #3182ce;
+            --accent-cyan: #00b4d8;
+            --accent-green: #38a169;
+            --accent-red: #e53e3e;
+            --accent-yellow: #d69e2e;
+            --accent-purple: #805ad5;
+            --text-main: #f7fafc;
+            --text-muted: #a0aec0;
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Prompt', sans-serif;
+            padding: 24px;
+            line-height: 1.6;
+        }
+        header {
+            max-width: 1300px;
+            margin: 0 auto 30px auto;
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border: 1px solid #334155;
+            border-radius: 16px;
+            padding: 28px 36px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        }
+        .header-badge {
+            display: inline-block;
+            background: rgba(49, 130, 206, 0.2);
+            color: #63b3ed;
+            border: 1px solid rgba(49, 130, 206, 0.4);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+        }
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        p.subtitle {
+            color: var(--text-muted);
+            font-size: 15px;
+            max-width: 900px;
+        }
+        .toolbar {
+            max-width: 1300px;
+            margin: 0 auto 24px auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .search-box {
+            flex: 1;
+            min-width: 280px;
+            position: relative;
+        }
+        .search-box input {
+            width: 100%;
+            padding: 12px 18px;
+            border-radius: 10px;
+            background: #1e2533;
+            border: 1px solid #334155;
+            color: #ffffff;
+            font-family: 'Prompt', sans-serif;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.2s;
+        }
+        .search-box input:focus {
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 0 3px rgba(0, 180, 216, 0.2);
+        }
+        .filter-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .filter-btn {
+            background: #1e2533;
+            color: var(--text-muted);
+            border: 1px solid #334155;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Prompt', sans-serif;
+        }
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--accent-blue);
+            color: #ffffff;
+            border-color: var(--accent-blue);
+        }
+        .components-grid {
+            max-width: 1300px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
+            gap: 24px;
+        }
+        @media (max-width: 768px) {
+            .components-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .component-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .component-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 28px rgba(0,0,0,0.4);
+            border-color: #4a5568;
+        }
+        .card-header {
+            padding: 16px 20px;
+            background: #1e2638;
+            border-bottom: 1px solid #2d3748;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .card-title-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .card-number {
+            background: rgba(255,255,255,0.1);
+            color: var(--accent-yellow);
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 13px;
+        }
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #ffffff;
+        }
+        .card-tag {
+            font-size: 11px;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 20px;
+            text-transform: uppercase;
+        }
+        .tag-mcu { background: rgba(49, 130, 206, 0.2); color: #63b3ed; border: 1px solid #3182ce; }
+        .tag-sensor { background: rgba(128, 90, 213, 0.2); color: #b794f4; border: 1px solid #805ad5; }
+        .tag-display { background: rgba(56, 161, 105, 0.2); color: #68d391; border: 1px solid #38a169; }
+        .tag-power { background: rgba(214, 158, 46, 0.2); color: #f6e05e; border: 1px solid #d69e2e; }
+        .tag-discrete { background: rgba(229, 62, 62, 0.2); color: #fc8181; border: 1px solid #e53e3e; }
+        .tag-switch { background: rgba(0, 180, 216, 0.2); color: #90e0ef; border: 1px solid #00b4d8; }
+        .tag-protection { background: rgba(72, 187, 120, 0.2); color: #9ae6b4; border: 1px solid #48bb78; }
+        .tag-passives { background: rgba(160, 174, 192, 0.2); color: #cbd5e0; border: 1px solid #718096; }
+
+        .card-body {
+            padding: 18px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            flex: 1;
+        }
+        .img-container {
+            border-radius: 8px;
+            overflow: hidden;
+            background: #12161f;
+            border: 1px solid #2d3748;
+            cursor: pointer;
+            position: relative;
+        }
+        .img-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: opacity 0.2s;
+        }
+        .img-container:hover img {
+            opacity: 0.92;
+        }
+        .img-zoom-hint {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            background: rgba(0,0,0,0.7);
+            color: #fff;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            pointer-events: none;
+        }
+        .component-meta {
+            font-size: 13px;
+            color: var(--text-muted);
+            background: #141923;
+            padding: 10px 14px;
+            border-radius: 8px;
+            border-left: 3px solid var(--accent-blue);
+        }
+        .component-meta strong {
+            color: #e2e8f0;
+        }
+        .pin-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+        .pin-table th {
+            background: #242d3d;
+            color: #cbd5e0;
+            text-align: left;
+            padding: 8px 10px;
+            font-weight: 600;
+            border-bottom: 2px solid #334155;
+        }
+        .pin-table td {
+            padding: 7px 10px;
+            border-bottom: 1px solid #242d3d;
+        }
+        .pin-table tr:hover td {
+            background: rgba(255,255,255,0.02);
+        }
+        .pin-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            color: var(--accent-yellow);
+        }
+        .net-badge {
+            font-family: 'JetBrains Mono', monospace;
+            background: rgba(49, 130, 206, 0.15);
+            color: #63b3ed;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        /* Modal for full size image view */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.88);
+            backdrop-filter: blur(5px);
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .modal.open {
+            display: flex;
+        }
+        .modal-content {
+            max-width: 95%;
+            max-height: 95%;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+            border: 1px solid #4a5568;
+        }
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: #fff;
+            font-size: 36px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="header-badge">SMARTWATCH CARRIER BOARD V1.0 • HARDWARE PINOUT GUIDE</div>
+    <h1>🔌 รายการรูปภาพและตารางกำหนดขาอุปกรณ์ทุกชิ้น (ทุกค่า)</h1>
+    <p class="subtitle">
+        รวบรวมแผนผังขา (Pinout Diagrams), ตำแหน่งพินบนบอร์ด PCB, มาร์คกิ้งตัวถัง SMD, ขั้วบวก-ลบ (Polarity) และตารางเชื่อมต่อไปยัง ESP32-C3 สำหรับการประกอบและบัดกรีฮาร์ดแวร์จริง 100%
+    </p>
+</header>
+
+<div class="toolbar">
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="🔍 ค้นหาตามชื่อชิ้นส่วน, ขาพิน, GPIO, หรือสัญญาณ Net..." oninput="filterComponents()">
+    </div>
+    <div class="filter-buttons">
+        <button class="filter-btn active" onclick="setFilter('all', this)">ทั้งหมด (17 รายการ)</button>
+        <button class="filter-btn" onclick="setFilter('MCU', this)">ไมโครคอนโทรลเลอร์</button>
+        <button class="filter-btn" onclick="setFilter('Sensor', this)">เซนเซอร์ (Pulse / IMU)</button>
+        <button class="filter-btn" onclick="setFilter('Display', this)">หน้าจอ GC9A01</button>
+        <button class="filter-btn" onclick="setFilter('Power', this)">ระบบพลังงาน (TP4056/MT3608)</button>
+        <button class="filter-btn" onclick="setFilter('Discrete', this)">ชิ้นส่วนสารกึ่งตัวนำ</button>
+        <button class="filter-btn" onclick="setFilter('Passives', this)">ตัวต้านทานและ C</button>
+    </div>
+</div>
+
+<div class="components-grid" id="gridContainer">
+    <!-- Populated by Javascript -->
+</div>
+
+<div class="modal" id="imageModal" onclick="closeModal()">
+    <span class="modal-close">&times;</span>
+    <img class="modal-content" id="modalImg">
+</div>
+
+<script>
+    const components = [{"id": "xiao", "num": "01", "name": "Seeed Studio XIAO ESP32-C3", "thai_name": "ไมโครคอนโทรลเลอร์หลัก (Master MCU)", "category": "MCU", "package": "14-Pin Dual SMD / DIP Header (Pitch 2.54mm)", "img": "./01_XIAO_ESP32C3_Pinout.png", "desc": "หน่วยประมวลผลกลาง 32-bit RISC-V 160MHz พร้อม Wi-Fi 2.4GHz และ Bluetooth 5.0 (BLE) ประหยัดพลังงานสูง", "pins": [{"pin": "Pin 1 (D0)", "net": "HUB_MFIO", "dest": "Pulse Express Pin 5", "type": "Interrupt / Input", "desc": "สัญญาณแจ้งเตือนข้อมูลพร้อม (Data Ready) จากชิป MAX32664"}, {"pin": "Pin 2 (D1)", "net": "HUB_RESET", "dest": "Pulse Express Pin 6", "type": "Control / Output", "desc": "รีเซ็ตฮาร์ดแวร์โมดูลตรวจวัดสัญญาณชีพ (Active Low)"}, {"pin": "Pin 3 (D2)", "net": "ADC_BAT", "dest": "กึ่งกลาง R1 (200k) & R2 (200k)", "type": "Analog Input", "desc": "วัดแรงดันแบตเตอรี่ผ่านตัวต้านทานแบ่งแรงดัน 1:2"}, {"pin": "Pin 4 (D3)", "net": "BUZZER_CTL", "dest": "ตัวต้านทาน R3 (1kΩ)", "type": "Digital Output", "desc": "ขับกระแสเปิด-ปิดทรานซิสเตอร์ Q1 สำหรับส่งเสียงเตือน"}, {"pin": "Pin 5 (D4)", "net": "I2C_SDA", "dest": "MPU6050 (Pin 4) & Pulse (Pin 3)", "type": "I2C Data", "desc": "สายส่งข้อมูลบัส I2C ร่วมกันระหว่างเซนเซอร์ความเร่งและชีพจร"}, {"pin": "Pin 6 (D5)", "net": "I2C_SCL", "dest": "MPU6050 (Pin 3) & Pulse (Pin 4)", "type": "I2C Clock", "desc": "สายสัญญาณนาฬิกาบัส I2C ความถี่ 400 kHz"}, {"pin": "Pin 7 (D6)", "net": "TFT_DC", "dest": "GC9A01 LCD (Pin 5)", "type": "SPI Control", "desc": "Data/Command Selection ควบคุมโหมดคำสั่งหรือส่งพิกเซลภาพ"}, {"pin": "Pin 8 (D7)", "net": "TFT_RST", "dest": "GC9A01 LCD (Pin 7)", "type": "SPI Reset", "desc": "Hardware Reset สั่งรีเซ็ตคอนโทรลเลอร์หน้าจอก่อนวาดภาพ"}, {"pin": "Pin 9 (D8)", "net": "TFT_SCK", "dest": "GC9A01 LCD (Pin 3)", "type": "SPI Clock", "desc": "SPI Clock สำหรับขับเคลื่อนข้อมูลหน้าจอความเร็วสูง"}, {"pin": "Pin 10 (D9)", "net": "GPIO9 (Boot)", "dest": "ปล่อยลอย (NC)", "type": "Strapping", "desc": "พินทดสอบ / สวิตช์บูตเฟิร์มแวร์เข้าสู่ Bootloader"}, {"pin": "Pin 11 (D10)", "net": "TFT_MOSI", "dest": "GC9A01 LCD (Pin 4)", "type": "SPI Data", "desc": "SPI Master Out Slave In ส่งบิตข้อมูลสี 16-bit 565"}, {"pin": "Pin 12 (3V3)", "net": "3V3_SYS", "dest": "VCC หน้าจอ, MPU6050, บัซเซอร์", "type": "Power Output", "desc": "แรงดันไฟเลี้ยงคงที่ 3.3V DC จ่ายกระแสสูงสุด 500mA"}, {"pin": "Pin 13 (GND)", "net": "GND_SYS", "dest": "กราวด์รวมของทุกอุปกรณ์", "type": "Ground", "desc": "จุดต่อกราวด์อ้างอิงแรงดันศูนย์ของทั้งระบบ"}, {"pin": "Pin 14 (5V)", "net": "5V_SYS", "dest": "ขา Cathode ไดโอด D1 (SS14)", "type": "Power Input", "desc": "รับไฟ 5.0V จากโมดูลสเต็ปอัป หรือชาร์จผ่านพอร์ต Type-C"}]}, {"id": "pulse", "num": "02", "name": "SparkFun Pulse Express (MAX32664D & MAX30102)", "thai_name": "เซนเซอร์วัดชีพจร ออกซิเจนในเลือด และความดันโลหิต", "category": "Sensor", "package": "JST-SH 1.0mm 6-Pin SMD Connector", "img": "./02_Pulse_Express_MAX32664_MAX30102_Pinout.png", "desc": "โมดูลวัดแสงชีวภาพ (PPG) ยิงแสง Red & IR ทะลุผิวหนัง พร้อมชิป Cortex-M4 ประมวลผลอัลกอริทึม BPT ในตัว", "pins": [{"pin": "Pin 1 (VCC)", "net": "5V_SYS / 3V3", "dest": "ESP32 Pin 14 (5V_SYS)", "type": "Power Input", "desc": "ไฟเลี้ยงโมดูล 3.3V - 5.0V DC (มีวงจร LDO 1.8V ภายใน)"}, {"pin": "Pin 2 (GND)", "net": "GND_SYS", "dest": "ESP32 Pin 13 (GND)", "type": "Ground", "desc": "กราวด์ร่วมระบบ"}, {"pin": "Pin 3 (SDA)", "net": "I2C_SDA", "dest": "ESP32 Pin 5 (GPIO4)", "type": "I2C Data", "desc": "สายส่งข้อมูล I2C ส่งค่า HR, SpO2, Systolic, Diastolic"}, {"pin": "Pin 4 (SCL)", "net": "I2C_SCL", "dest": "ESP32 Pin 6 (GPIO5)", "type": "I2C Clock", "desc": "สายสัญญาณนาฬิกา I2C ความถี่บัส 400kHz"}, {"pin": "Pin 5 (MFIO)", "net": "HUB_MFIO", "dest": "ESP32 Pin 1 (GPIO0)", "type": "Interrupt / Handshake", "desc": "อินเตอร์รัปต์ Data Ready แจ้งเมื่อชิปคำนวณอัลกอริทึมเสร็จสิ้น"}, {"pin": "Pin 6 (RSTN)", "net": "HUB_RESET", "dest": "ESP32 Pin 2 (GPIO1)", "type": "Reset Input", "desc": "รีเซ็ตฮาร์ดแวร์ Bio-Hub ให้เริ่มรันใหม่ (Active Low)"}]}, {"id": "mpu6050", "num": "03", "name": "MPU-6050 (GY-521 Breakout Board)", "thai_name": "โมดูลวัดความเร่งและไจโรสโคป 6 แกน ตรวจจับการหกล้ม", "category": "Sensor", "package": "1x8 Pin Header (Pitch 2.54mm)", "img": "./03_MPU6050_GY521_Pinout.png", "desc": "เซนเซอร์ 3-Axis Gyroscope + 3-Axis Accelerometer ตรวจจับสภาวะการเคลื่อนไหว Free-Fall, Impact และ Post-fall Inactivity", "pins": [{"pin": "Pin 1 (VCC)", "net": "3V3_SYS", "dest": "ESP32 Pin 12 (3V3)", "type": "Power Input", "desc": "ไฟเลี้ยง 3.3V - 5.0V มี LDO เรกูเลเตอร์ 3.3V บนโมดูล"}, {"pin": "Pin 2 (GND)", "net": "GND_SYS", "dest": "ESP32 Pin 13 (GND)", "type": "Ground", "desc": "กราวด์ร่วมระบบ"}, {"pin": "Pin 3 (SCL)", "net": "I2C_SCL", "dest": "ESP32 Pin 6 (GPIO5)", "type": "I2C Clock", "desc": "สัญญาณนาฬิกา I2C Clock ร่วมกับ MAX32664"}, {"pin": "Pin 4 (SDA)", "net": "I2C_SDA", "dest": "ESP32 Pin 5 (GPIO4)", "type": "I2C Data", "desc": "สัญญาณข้อมูล I2C Data ส่งค่าเวกเตอร์ Accel X, Y, Z"}, {"pin": "Pin 5 (XDA)", "net": "NC", "dest": "ไม่เชื่อมต่อ (ปล่อยลอย)", "type": "Aux I2C", "desc": "Auxiliary I2C Data สำหรับต่อเข็มทิศ Magnetometer"}, {"pin": "Pin 6 (XCL)", "net": "NC", "dest": "ไม่เชื่อมต่อ (ปล่อยลอย)", "type": "Aux I2C", "desc": "Auxiliary I2C Clock"}, {"pin": "Pin 7 (AD0)", "net": "GND_SYS", "dest": "ต่อลงกราวด์ (0x68)", "type": "Address Select", "desc": "กำหนด I2C Address: ต่อ GND = 0x68 (ถ้าต่อ VCC = 0x69)"}, {"pin": "Pin 8 (INT)", "net": "MPU_INT", "dest": "ESP32 Pin 2 หรือ ปล่อยลอย", "type": "Interrupt Output", "desc": "ขาแจ้งเตือนเมื่อตรวจพบแรงสั่นสะเทือนหรือแรงตกกระทบฉับพลัน"}]}, {"id": "gc9a01", "num": "04", "name": "GC9A01 1.28\" Round TFT LCD (240x240 RGB)", "thai_name": "หน้าจอแสดงผลทรงกลมระบบ IPS SPI สีสันสดใส", "category": "Display", "package": "1x7 Pin Header (Pitch 2.54mm - Top Layer)", "img": "./04_GC9A01_Round_TFT_7Pin_Pinout.png", "desc": "จอแสดงผลทรงกลม IPS คมชัด มุมมองกว้าง 178 องศา แสดงหน้าปัดคิวผู้ป่วย อัตราการเต้นหัวใจ และระดับแบตเตอรี่", "pins": [{"pin": "Pin 1 (VCC)", "net": "3V3_SYS", "dest": "ESP32 Pin 12 (3V3)", "type": "Power Input", "desc": "ไฟเลี้ยงวงจรไดรเวอร์จอและหลอด LED Backlight 3.3V"}, {"pin": "Pin 2 (GND)", "net": "GND_SYS", "dest": "ESP32 Pin 13 (GND)", "type": "Ground", "desc": "กราวด์ร่วมระบบ"}, {"pin": "Pin 3 (SCL)", "net": "TFT_SCK", "dest": "ESP32 Pin 9 (GPIO8)", "type": "SPI Clock", "desc": "สัญญาณนาฬิกาบัส SPI ขับหน้าจอความเร็วสูง (สูงสุด 80MHz)"}, {"pin": "Pin 4 (SDA)", "net": "TFT_MOSI", "dest": "ESP32 Pin 11 (GPIO10)", "type": "SPI Data", "desc": "SPI MOSI ลำเลียงข้อมูลภาพสี 16-bit RGB 565"}, {"pin": "Pin 5 (DC)", "net": "TFT_DC", "dest": "ESP32 Pin 7 (GPIO6)", "type": "Control Output", "desc": "เลือกระหว่างข้อมูลและคำสั่ง (High = Data, Low = Command)"}, {"pin": "Pin 6 (CS)", "net": "GND_SYS", "dest": "ต่อลง GND หรือ GPIO 7/9", "type": "Chip Select", "desc": "Chip Select ต่อลงกราวด์เพื่อให้จอตื่นพร้อมรับข้อมูลเสมอ"}, {"pin": "Pin 7 (RST)", "net": "TFT_RST", "dest": "ESP32 Pin 8 (GPIO7)", "type": "Reset Input", "desc": "Hardware Reset สั่งเริ่มระบบและรีเฟรชไดรเวอร์หน้าจอ"}]}, {"id": "tp4056", "num": "05", "name": "TP4056 Li-Po Charger & Protection Module", "thai_name": "โมดูลชาร์จแบตเตอรี่ลิเธียมพร้อมระบบป้องกัน DW01A + FS8205A", "category": "Power", "package": "SMD Module Pads (Micro-USB / Type-C)", "img": "./05_TP4056_LiPo_Charger_Module.png", "desc": "โมดูลชาร์จแบตเตอรี่ลิเธียมโพลิเมอร์ 3.7V ระบบ CC/CV ตัดการชาร์จที่ 4.2V ป้องกันไฟย้อน ตัดเมื่อแบตต่ำกว่า 2.5V และตัดลัดวงจร", "pins": [{"pin": "Pad IN+", "net": "5V_USB (+)", "dest": "รับไฟบวก 5V จากพอร์ต USB", "type": "Power Input", "desc": "ขั้วบวกสำหรับชาร์จไฟจากภายนอก"}, {"pin": "Pad IN-", "net": "GND_USB (-)", "dest": "กราวด์ไฟชาร์จจาก USB", "type": "Ground", "desc": "ขั้วลบสำหรับชาร์จไฟ"}, {"pin": "Pad B+", "net": "BAT_RAW+", "dest": "ขั้วบวกแบตเตอรี่ LiPo (J1)", "type": "Battery (+)", "desc": "ต่อตรงเข้าขั้วบวกของเซลล์แบตเตอรี่ 3.7V"}, {"pin": "Pad B-", "net": "BAT_NEG", "dest": "ขั้วลบแบตเตอรี่ LiPo (J1)", "type": "Battery (-)", "desc": "ต่อเข้าขั้วลบของเซลล์แบตเตอรี่ (ผ่านวงจรตัด DW01A)"}, {"pin": "Pad OUT+", "net": "BAT_OUT+", "dest": "ต่อเข้าฟิวส์ F1 (0.5A)", "type": "Output (+)", "desc": "ไฟออกจากแบตเตอรี่ไปจ่ายให้สวิตช์และระบบ"}, {"pin": "Pad OUT-", "net": "GND_SYS", "dest": "กราวด์รวมของระบบ", "type": "Ground Output", "desc": "กราวด์ของโหลดหลังผ่าน MOSFET ตัดกระแสเกิน"}]}, {"id": "mt3608", "num": "06", "name": "MT3608 DC-DC Step-Up Boost Module", "thai_name": "โมดูลบูสต์แปลงแรงดันไฟขึ้นจาก 3.7V เป็น 5.0V คงที่", "category": "Power", "package": "SMD Module 4-Pad + Multiturn Potentiometer", "img": "./06_MT3608_5V_Boost_Converter.png", "desc": "โมดูลแปลงแรงดันไฟสเต็ปอัปความถี่ 1.2MHz ประสิทธิภาพ 93% จ่ายไฟ 5.0V เลี้ยงเซนเซอร์ชีวภาพและ MCU", "pins": [{"pin": "Pad VIN+", "net": "BAT_SW+", "dest": "สวิตช์เปิด-ปิด SW1 (Pin 2)", "type": "Power Input (+)", "desc": "รับไฟแรงดัน 3.0V - 4.2V จากแบตเตอรี่หลังเปิดสวิตช์"}, {"pin": "Pad VIN-", "net": "GND_SYS", "dest": "กราวด์รวมระบบ", "type": "Ground Input", "desc": "ขั้วกราวด์ไฟเข้า"}, {"pin": "Pad VOUT+", "net": "5V_BOOST", "dest": "ขา Anode ไดโอด SS14 (D1)", "type": "Power Output (+)", "desc": "จ่ายไฟเอาต์พุตคงที่ 5.00V DC (ปรับตั้งด้วยทริมเมอร์)"}, {"pin": "Pad VOUT-", "net": "GND_SYS", "dest": "กราวด์รวมระบบ", "type": "Ground Output", "desc": "ขั้วกราวด์ไฟออก"}]}, {"id": "s8050", "num": "07", "name": "S8050 NPN Transistor (SOT-23 / J3Y)", "thai_name": "ทรานซิสเตอร์ชนิด NPN สวิตช์ขับบัซเซอร์เตือนภัย", "category": "Discrete", "package": "SOT-23 SMD (Marking: J3Y)", "img": "./07_S8050_NPN_Transistor_SOT23.png", "desc": "ทรานซิสเตอร์กำลังต่ำ-ปานกลาง ทนกระแส 500mA สวิตช์ขับบัซเซอร์ให้ส่งเสียงเตือนเหตุหกล้มหรือแจ้งเตือนเรียกคิว", "pins": [{"pin": "Pin 1 (Base)", "net": "Q1_BASE", "dest": "ขา 2 ของ R3 (1kΩ) & ขา 1 ของ R4 (100kΩ)", "type": "Control Input", "desc": "รับกระแสกระตุ้นขับให้ทรานซิสเตอร์นำกระแส (Saturation)"}, {"pin": "Pin 2 (Emitter)", "net": "GND_SYS", "dest": "กราวด์รวมของระบบ", "type": "Ground", "desc": "ต่อลงกราวด์ระบายกระแสลงสู่ระบบ"}, {"pin": "Pin 3 (Collector)", "net": "BUZZER_NEG", "dest": "ขาลบของบัซเซอร์ BZ1 (Pin 2)", "type": "Switch Output", "desc": "ดึงขาลบของบัซเซอร์ลงกราวด์เมื่อนำกระแส เกิดเสียงเตือน"}]}, {"id": "buzzer", "num": "08", "name": "Active Buzzer 3.3V (9x5.5mm)", "thai_name": "บัซเซอร์ส่งเสียงสัญญาณเตือนภัยฉุกเฉินและเรียกคิว", "category": "Discrete", "package": "Through-Hole 2-Pin (Lead Pitch 3.6mm)", "img": "./08_Active_Buzzer_3.3V.png", "desc": "บัซเซอร์ชนิดมีวงจรกำเนิดความถี่เสียง 2.7kHz ในตัว จ่ายไฟตรง 3.3V ดังทันทีกว่า 80dB", "pins": [{"pin": "Pin 1 (ขายาว / +)", "net": "3V3_SYS", "dest": "บัสไฟเลี้ยง 3.3V ของระบบ", "type": "Power Input (+)", "desc": "ขั้วบวก รับแรงดัน 3.3V (มีสัญลักษณ์ + บนสติ๊กเกอร์)"}, {"pin": "Pin 2 (ขาสั้น / -)", "net": "BUZZER_NEG", "dest": "ขา Collector ของ Q1 (S8050)", "type": "Sink Input (-)", "desc": "ขั้วลบ ต่อเข้าขา Collector ของทรานซิสเตอร์สวิตช์ลงกราวด์"}]}, {"id": "ss14", "num": "09", "name": "SS14 Schottky Barrier Diode (SMA)", "thai_name": "ไดโอดช็อตต์กีป้องกันไฟย้อนเข้าแบตเตอรี่ (1A 40V)", "category": "Discrete", "package": "SMA / DO-214AC SMD", "img": "./09_SS14_Schottky_Diode_SMA.png", "desc": "ไดโอดความเร็วสูง แรงดันตกคร่อมต่ำ 0.45V ทำหน้าที่ Power OR-ing ป้องกันไฟ 5V จาก USB ไหลย้อนเข้าโมดูลบูสต์", "pins": [{"pin": "Cathode (K)", "net": "5V_SYS", "dest": "พิน 14 ของ ESP32-C3 [มีแถบขาว]", "type": "Output (-)", "desc": "ขั้วลบ มีแถบสีขาวบนตัวถัง หันเข้าหาบัส 5V_SYS"}, {"pin": "Anode (A)", "net": "5V_BOOST", "dest": "ขา VOUT+ ของโมดูล MT3608 [ไร้แถบ]", "type": "Input (+)", "desc": "ขั้วบวก รับไฟ 5.0V จากโมดูลบูสต์สเต็ปอัป"}]}, {"id": "fuse", "num": "10", "name": "PTC Resettable Fuse 0.5A 6V (1206 SMD)", "thai_name": "ฟิวส์ตัดตอนอัตโนมัติป้องกันไฟฟ้าลัดวงจร", "category": "Protection", "package": "1206 SMD (3216 Metric)", "img": "./10_PTC_Resettable_Fuse_0.5A_1206.png", "desc": "ฟิวส์โพลีเมอร์คืนสภาพตัวเองได้ ตัดการนำไฟฟ้าทันทีเมื่อกระแสเกิน 500mA และต่อวงจรใหม่เมื่อภาวะลัดวงจรหมดไป", "pins": [{"pin": "Pad 1", "net": "BAT_RAW+", "dest": "ขั้วบวกแบตเตอรี่ J1 (Pin 1)", "type": "Fuse Terminal", "desc": "รับกระแสไฟตรงจากขั้วบวกแบตเตอรี่ LiPo (ไม่มีขั้ว)"}, {"pin": "Pad 2", "net": "BAT_OUT+", "dest": "ขาเข้าสวิตช์เลื่อน SW1 (Pin 1)", "type": "Fuse Terminal", "desc": "จ่ายกระแสไฟผ่านไปยังสวิตช์เปิด-ปิดหลัก"}]}, {"id": "switch", "num": "11", "name": "PCM12 SPDT Slide Switch (Power ON/OFF)", "thai_name": "สวิตช์เลื่อนเปิด-ปิดระบบจ่ายไฟของตัวเรือน", "category": "Switch", "package": "SMD 3-Pin Slide Switch", "img": "./11_PCM12_SPDT_Slide_Switch.png", "desc": "สวิตช์เลื่อนขนาดเล็กความบางพิเศษ ติดตั้งที่ขอบล่างของตัวเรือน ควบคุมการตัด-ต่อไฟฟ้าจากแบตเตอรี่", "pins": [{"pin": "Pin 1 (ON)", "net": "BAT_OUT+", "dest": "ขาออกฟิวส์ F1 (Pad 2)", "type": "Switch Input", "desc": "ตำแหน่งเปิด (ON): ไฟจากแบตเตอรี่เข้าสู่ระบบ"}, {"pin": "Pin 2 (COM)", "net": "BAT_SW+", "dest": "ขาเข้าโมดูล MT3608 & R1", "type": "Switch Common", "desc": "ขากลาง (Common): จ่ายไฟไปเลี้ยงโมดูลบูสต์และวงจรแบ่งแรงดัน"}, {"pin": "Pin 3 (OFF)", "net": "NC", "dest": "ปล่อยลอย ไม่เชื่อมต่อ", "type": "Switch Output", "desc": "ตำแหน่งปิด (OFF): ตัดการจ่ายกระแสไฟ กินไฟ 0 µA"}]}, {"id": "jst_ph", "num": "12", "name": "JST-PH 2.0mm 2-Pin Battery Connector", "thai_name": "ขั้วเสียบแบตเตอรี่ลิเธียมโพลิเมอร์ 3.7V", "category": "Connector", "package": "JST-PH 2-Pin Vertical (Pitch 2.0mm)", "img": "./12_JST_PH_2Pin_Battery_Connector.png", "desc": "ขั้วต่อมาตรฐานสำหรับแบตเตอรี่ Li-Po มีเดือยล็อคป้องกันการเสียบกลับขั้ว", "pins": [{"pin": "Pin 1 (VBAT+)", "net": "BAT_RAW+", "dest": "ขาเข้าฟิวส์ F1 (สายสีแดง)", "type": "Battery (+)", "desc": "ขั้วบวกแบตเตอรี่ แรงดัน 3.7V ถึง 4.2V"}, {"pin": "Pin 2 (GND)", "net": "GND_SYS", "dest": "กราวด์รวมระบบ (สายสีดำ)", "type": "Ground (-)", "desc": "ขั้วลบแบตเตอรี่ ต่อลงกราวด์รวมของระบบ"}]}, {"id": "r1", "num": "13", "name": "R1: Resistor 200kΩ ±1% (0805 SMD)", "thai_name": "ตัวต้านทาน 200kΩ แขนบนของวงจรแบ่งแรงดันวัดแบตเตอรี่", "category": "Passives", "package": "0805 SMD (รหัสตัวถัง: 2003 หรือ 204 หรือ 30C)", "img": "./13_Resistor_R1_200k_0805.png", "desc": "ตัวต้านทานแบบความแม่นยำสูง ±1% แขนบนของ Voltage Divider ลดทอนแรงดันแบตเตอรี่ 4.2V เหลือไม่เกิน 2.1V", "pins": [{"pin": "Pad 1", "net": "BAT_SW+", "dest": "สวิตช์เปิด-ปิด SW1 (Pin 2)", "type": "Divider In", "desc": "รับแรงดันตรงจากแบตเตอรี่หลังสวิตช์ (3.0V ถึง 4.2V)"}, {"pin": "Pad 2", "net": "ADC_BAT", "dest": "ESP32-C3 Pin 3 (GPIO2)", "type": "Divider Out", "desc": "จุดกึ่งกลางแบ่งแรงดัน ต่อร่วมกับ R2 และ C1 เข้าพิน ADC"}]}, {"id": "r2", "num": "14", "name": "R2: Resistor 200kΩ ±1% (0805 SMD)", "thai_name": "ตัวต้านทาน 200kΩ แขนล่างของวงจรแบ่งแรงดันวัดแบตเตอรี่", "category": "Passives", "package": "0805 SMD (รหัสตัวถัง: 2003 หรือ 204 หรือ 30C)", "img": "./14_Resistor_R2_200k_0805.png", "desc": "ตัวต้านทานแขนล่างของวงจรแบ่งแรงดัน แบ่งแรงดันแบบ 1:2 ร่วมกับ R1 และช่วยจำกัดกระแสสูญเปล่าให้น้อยกว่า 10.5µA", "pins": [{"pin": "Pad 1", "net": "ADC_BAT", "dest": "ESP32-C3 Pin 3 (GPIO2)", "type": "Divider In", "desc": "จุดกึ่งกลางแบ่งแรงดัน รับแรงดันหารสอง"}, {"pin": "Pad 2", "net": "GND_SYS", "dest": "กราวด์รวมของระบบ", "type": "Ground", "desc": "ต่อลงกราวด์รวมเพื่อให้ครบวงจรแบ่งแรงดัน"}]}, {"id": "r3", "num": "15", "name": "R3: Resistor 1kΩ ±5% (0805 SMD)", "thai_name": "ตัวต้านทาน 1kΩ จำกัดกระแสขา Base ของทรานซิสเตอร์บัซเซอร์", "category": "Passives", "package": "0805 SMD (รหัสตัวถัง: 102)", "img": "./15_Resistor_R3_1k_0805.png", "desc": "ตัวต้านทานจำกัดกระแสขับขา Base ของ Q1 ไม่ให้เกิน 2.6mA ป้องกันพิน GPIO3 ของ MCU เสียหาย", "pins": [{"pin": "Pad 1", "net": "BUZZER_CTL", "dest": "ESP32-C3 Pin 4 (GPIO3)", "type": "Signal In", "desc": "รับสัญญาณดิจิทัลควบคุมจาก MCU"}, {"pin": "Pad 2", "net": "Q1_BASE", "dest": "ขา Base ของ Q1 (Pin 1)", "type": "Signal Out", "desc": "จ่ายกระแสขับขา Base ของทรานซิสเตอร์อย่างปลอดภัย"}]}, {"id": "r4", "num": "16", "name": "R4: Resistor 100kΩ ±5% (0805 SMD)", "thai_name": "ตัวต้านทาน 100kΩ พูลดาวน์ขา Base ป้องกันเสียงกวนตอนบูต", "category": "Passives", "package": "0805 SMD (รหัสตัวถัง: 104)", "img": "./16_Resistor_R4_100k_0805.png", "desc": "ตัวต้านทาน Pull-down ดึงขา Base ลงกราวด์ 0V ป้องกันสถานะลอย (Floating) ขณะไมโครคอนโทรลเลอร์กำลังเปิดเครื่อง", "pins": [{"pin": "Pad 1", "net": "Q1_BASE", "dest": "ขา Base ของ Q1 (Pin 1)", "type": "Pull-down In", "desc": "ต่อขนานกับขา Base หลังตัวต้านทาน R3"}, {"pin": "Pad 2", "net": "GND_SYS", "dest": "กราวด์รวมของระบบ", "type": "Ground", "desc": "ดึงแรงดันขา Base ลงกราวด์ให้เป็นศูนย์ (0V)"}]}, {"id": "c1", "num": "17", "name": "C1: Capacitor 100nF 50V (0805 MLCC)", "thai_name": "ตัวเก็บประจุเซรามิก 100nF (0.1µF) กรองสัญญาณรบกวน ADC แบตเตอรี่", "category": "Passives", "package": "0805 SMD MLCC (สีน้ำตาล ไม่มีขั้ว)", "img": "./17_Capacitor_C1_100nF_0805.png", "desc": "ตัวเก็บประจุกรองสัญญาณรบกวนความถี่สูง (Low-Pass Filter, Cut-off ~15.9Hz) กำจัดริปเปิล Wi-Fi ทำให้อ่านแรงดันแบตได้นิ่งสนิท", "pins": [{"pin": "Pad 1", "net": "ADC_BAT", "dest": "ESP32-C3 Pin 3 (GPIO2)", "type": "Filter Input", "desc": "จุดแยกต่อขนานกับ R1 (ขา 2) และ R2 (ขา 1)"}, {"pin": "Pad 2", "net": "GND_SYS", "dest": "กราวด์รวมของระบบ", "type": "Ground", "desc": "ต่อลงกราวด์เพื่อบายพาสสัญญาณรบกวนความถี่สูงทิ้ง"}]}];
+    let currentFilter = 'all';
+
+    function renderComponents() {
+        const container = document.getElementById('gridContainer');
+        const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+        container.innerHTML = '';
+
+        components.forEach(item => {
+            const matchesFilter = (currentFilter === 'all' || item.category === currentFilter);
+            const matchesSearch = item.name.toLowerCase().includes(searchTerm) ||
+                                  item.thai_name.toLowerCase().includes(searchTerm) ||
+                                  item.pins.some(p => p.pin.toLowerCase().includes(searchTerm) || 
+                                                      p.net.toLowerCase().includes(searchTerm) ||
+                                                      p.dest.toLowerCase().includes(searchTerm));
+
+            if (matchesFilter && matchesSearch) {
+                const card = document.createElement('div');
+                card.className = 'component-card';
+
+                let tagClass = 'tag-passives';
+                if (item.category === 'MCU') tagClass = 'tag-mcu';
+                else if (item.category === 'Sensor') tagClass = 'tag-sensor';
+                else if (item.category === 'Display') tagClass = 'tag-display';
+                else if (item.category === 'Power') tagClass = 'tag-power';
+                else if (item.category === 'Discrete') tagClass = 'tag-discrete';
+                else if (item.category === 'Switch') tagClass = 'tag-switch';
+                else if (item.category === 'Protection') tagClass = 'tag-protection';
+
+                let pinRows = '';
+                item.pins.forEach(p => {
+                    pinRows += `
+                        <tr>
+                            <td class="pin-badge">${p.pin}</td>
+                            <td><span class="net-badge">${p.net}</span></td>
+                            <td style="color:#68d391">${p.dest}</td>
+                            <td style="color:#a0aec0">${p.desc}</td>
+                        </tr>
+                    `;
+                });
+
+                card.innerHTML = `
+                    <div class="card-header">
+                        <div class="card-title-group">
+                            <span class="card-number">${item.num}</span>
+                            <div class="card-title">${item.name}</div>
+                        </div>
+                        <span class="card-tag ${tagClass}">${item.category}</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="img-container" onclick="openModal('${item.img}')">
+                            <img src="${item.img}" alt="${item.name} Pinout">
+                            <div class="img-zoom-hint">🔍 คลิกเพื่อดูภาพขยายเต็มจอ</div>
+                        </div>
+                        <div class="component-meta">
+                            <strong>หน้าที่:</strong> ${item.thai_name}<br>
+                            <strong>ตัวถัง/ขั้ว:</strong> ${item.package}<br>
+                            <span style="color:#cbd5e0">${item.desc}</span>
+                        </div>
+                        <table class="pin-table">
+                            <thead>
+                                <tr>
+                                    <th>ขาพิน</th>
+                                    <th>สัญญาณ (Net)</th>
+                                    <th>ต่อเข้าจุดใด</th>
+                                    <th>ฟังก์ชันหน้าที่</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${pinRows}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+                container.appendChild(card);
+            }
+        });
+    }
+
+    function setFilter(cat, btn) {
+        currentFilter = cat;
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        renderComponents();
+    }
+
+    function filterComponents() {
+        renderComponents();
+    }
+
+    function openModal(src) {
+        document.getElementById('modalImg').src = src;
+        document.getElementById('imageModal').classList.add('open');
+    }
+
+    function closeModal() {
+        document.getElementById('imageModal').classList.remove('open');
+    }
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeModal();
+    });
+
+    // Initial render
+    renderComponents();
+</script>
+
+</body>
+</html>

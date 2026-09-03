@@ -1,0 +1,140 @@
+=== EQUATIONS / FORMULA SEARCH ===
+P4: ปริญญานิพนธ์นี้เป็นส่วนหนึ่งของการศึกษาตามหลักสูตรปริญญาวิศวกรรมศาสตรบัณฑิต
+---
+P15: ได้รับอนุมัติให้เป็นส่วนหนึ่งของการศึกษาตามหลักสูตรปริญญาวิศวกรรมศาสตรบัณฑิต
+---
+P31: โครงงานนี้นำเสนอการพัฒนาระบบ "อุปกรณ์สวมใส่ติดตามสุขภาพและเว็บแอปเช็คคิวผู้ป่วยนอก" (Wearable Health Monitoring Smartwatch and Outpatient Queue Tracking Web Application) โดยบูรณาการ 3 องค์ประกอบหลัก ได้แก่ 1) อุปกรณ์ Smartwatch ที่ใช้ไมโครคอนโทรลเลอร์ Seeed Studio XIAO ESP32-C3 ทำงานร่วมกับเซนเซอร์เชิงแสง PPG (MAX32664 / MAX30102) สำหรับการประเมินอัตราการเต้นของหัวใจ (Heart Rate), ความอิ่มตัวของออกซิเจนในเลือด (SpO2), อุณหภูมิผิวหนัง และแนวโน้มความดันโลหิตแบบไร้ปลอกแขน (Cuffless BP Estimation) ผสานร่วมกับเซนเซอร์วัดความเร่ง 6 แกน MPU-6050 สำหรับการตรวจจับการหกล้มแบบหลายขั้นตอน (Multi-Stage Fall Detection) พร้อมอัลกอริทึม Signal Quality Index (SQI) และ Skin-Contact Detection 2) ระบบประเมินความรุนแรงอัจฉริยะ (AI-assisted Triage) 5 ระดับ (RED, PINK, YELLOW, GREEN, WHITE) ผสานการวิเคราะห์ข้อความ Chief Complaint ด้วย NLP (TF-IDF) และกฎทางการแพทย์ (Rule-based Overrides) ภายใต้แนวคิด Human-in-the-loop โดยมี Explainable AI Reasons เพื่อสนับสนุนการตัดสินใจ และให้พยาบาลเป็นผู้ตรวจสอบและยืนยันผลขั้นสุดท้าย (Nurse Confirmed Severity) และ 3) ระบบเว็บแอปพลิเคชัน Next.js 16.3 (App Router) และคลาวด์แดชบอร์ดสำหรับการจัดการคิวแบบพลวัต (Dynamic Queue Prioritization) บัตรคิวดิจิทัลผ่าน HTML5 Canvas API (queue-card-canvas.ts) และระบบความปลอดภัย (ThaID, PIN, PDPA, Device Pairing)
+---
+P42: This project introduces a comprehensive "Wearable Health Monitoring Smartwatch and Outpatient Queue Tracking Web Application" integrating three core pillars: 1) A wearable IoT smartwatch powered by an ESP32-C3 microcontroller, integrating optical Photoplethysmography (PPG) sensors (MAX32664 / MAX30102) for continuous Heart Rate (HR), Blood Oxygen Saturation (SpO2), Skin Temperature, and cuffless Blood Pressure (BP) trend estimation, paired with an MPU-6050 6-axis IMU for sequential Multi-stage Fall Detection, equipped with Signal Quality Index (SQI) and skin-contact detection filters; 2) An AI-assisted 5-level Triage Decision Support System (RED, PINK, YELLOW, GREEN, WHITE) combining Natural Language Processing (TF-IDF) on Chief Complaints with clinical rule-based overrides under a Human-in-the-loop paradigm, generating Explainable AI Reasons for nurse review and final clinical confirmation (Nurse Confirmed Severity); and 3) A responsive Next.js web application and cloud dashboard for dynamic queue prioritization, HTML5 Canvas digital queue cards, and enterprise security (ThaID, 6-digit PIN, PDPA consent, and Device Pairing authentication).
+---
+P176: HR           Heart Rate (อัตราการเต้นของหัวใจ, bpm)
+---
+P177: SpO2         Peripheral Capillary Oxygen Saturation (ความอิ่มตัวของออกซิเจนในเลือดแดงส่วนปลาย, %)
+---
+P181: SI           Shock Index (ดัชนีช็อก = HR / SBP)
+---
+P184: SVM          Signal Vector Magnitude (เวกเตอร์ขนาดความเร่งรวม = √(ax² + ay² + az²))
+---
+P202: 1. เพื่อออกแบบและสร้างอุปกรณ์สวมใส่ต้นแบบ (Smart Watch Prototype) โดยใช้ไมโครคอนโทรลเลอร์ Seeed Studio XIAO ESP32-C3 ร่วมกับเซนเซอร์ MAX32664 และ MPU-6050 สำหรับตรวจวัดสัญญาณชีพ (Heart Rate, SpO2, Skin Temp, Estimated BP Trend) และตรวจจับการหกล้มแบบหลายขั้นตอนได้แบบเรียลไทม์
+---
+P209: 1. สมมติฐานด้านการประมวลผลสัญญาณ (Edge Processing & Motion Rejection): การใช้อัลกอริทึม SQI และการตรวจสอบความเข้มแสงอินฟราเรดสะท้อน (Skin-Contact IR Threshold) ร่วมกับข้อมูลความเร่งจาก MPU-6050 จะสามารถคัดกรองสัญญาณรบกวนจากการเคลื่อนไหว (Motion Artifacts) ได้ ทำให้ค่าความคลาดเคลื่อนในการวัดสัญญาณชีพ (HR และ SpO2) ไม่เกิน ±5% เมื่อเทียบกับเครื่องมือแพทย์มาตรฐาน
+---
+P232: 3) กฎคัดกรองฉุกเฉิน (Rule-based Overrides): กำหนดกฎทางการแพทย์ เช่น SpO2 < 90%, Shock Index > 0.9, หรือมีเหตุการณ์ Fall Detection ให้ปรับเป็นระดับวิกฤตทันที
+---
+P266: • ดัชนีช็อก (Shock Index: SI): อัตราส่วนระหว่างอัตราการเต้นของหัวใจ (HR) ต่อค่าความดันโลหิตซิสโตลิก (SBP) โดยค่า SI > 0.9 บ่งชี้ภาวะเสี่ยงต่อการไหลเวียนโลหิตล้มเหลวเฉียบพลัน
+---
+P276: 1. ระดับที่ 1 (RED - Resuscitation/Critical): ผู้ป่วยภาวะวิกฤตคุกคามต่อชีวิต เช่น ภาวะหัวใจหยุดเต้น, ภาวะช็อกรุนแรง (Shock Index > 0.9), ค่า SpO2 < 90%, หรือเกิดการหกล้มและหมดสติ ต้องได้รับการกู้ชีพและเข้าพบแพทย์ทันทีโดยไม่ต้องรอคิว
+---
+P277: 2. ระดับที่ 2 (PINK - Emergent): ผู้ป่วยที่มีความรุนแรงสูง มีสัญญาณชีพผิดปกติเด่นชัด หรือมีอาการสำคัญที่มีความเสี่ยงสูง เช่น เจ็บแน่นหน้าอกรุนแรง, หายใจลำบาก, ค่า SpO2 90-92%, หรือ HR > 130 bpm ควรได้รับการประเมินและตรวจรักษาภายใน 10-15 นาที
+---
+P284: สัญญาณชีพเป็นตัวบ่งชี้สรีรวิทยาพื้นฐานที่สะท้อนถึงการทำงานของระบบสำคัญในร่างกาย การตรวจวัดสัญญาณชีพอย่างต่อเนื่องช่วยให้สามารถตรวจพบสัญญาณเตือนของการทรุดลงของอาการได้ล่วงหน้า โดยเฉพาะการประเมินดัชนีช็อก (Shock Index: SI) ซึ่งเสนอโดย Rady et al. (1994) ดังแสดงในสมการ (2.1)
+---
+P285: SI = \frac{HR}{SBP}        (2.1)
+---
+P286: เมื่อ SI แทน ดัชนีช็อก (ไร้หน่วย), HR แทน อัตราการเต้นของหัวใจ (ครั้งต่อนาที, bpm), และ SBP แทน ค่าความดันโลหิตซิสโตลิก (มิลลิเมตรปรอท, mmHg) ในภาวะปกติค่า SI จะอยู่ระหว่าง 0.5 ถึง 0.7 หากค่า SI สูงกว่า 0.9 จะมีความไวสูงมากในการบ่งชี้ภาวะ Left Ventricular Failure และ Occult Shock แม้ว่าค่าความดันโลหิตตัวบนจะยังไม่ลดลงต่ำกว่า 90 mmHg ก็ตาม
+---
+P288: เทคนิคโฟโตพลีทิสโมกราฟี (Photoplethysmography: PPG) เป็นการตรวจวัดทางทัศนศาสตร์โดยใช้แสงความยาวคลื่นเฉพาะฉายผ่านผิวหนัง เพื่อตรวจวัดการเปลี่ยนแปลงของปริมาตรเลือดในหลอดเลือดฝอยในแต่ละรอบการบีบตัวของหัวใจ การคำนวณค่า SpO2 อาศัยคุณสมบัติทางสเปกโทรสโกปีของออกซีฮีโมโกลบิน (HbO2) ซึ่งดูดกลืนแสงอินฟราเรด (880-940 nm) ได้ดี และดีออกซีฮีโมโกลบิน (Hb) ซึ่งดูดกลืนแสงสีแดง (660 nm) ได้ดี โดยระบบจะคำนวณอัตราส่วนการดูดกลืนแสง (Ratio of Ratios: R) จากสัญญาณกระแสสลับ (AC) และกระแสตรง (DC) ดังแสดงในสมการ (2.2)
+---
+P289: R = \frac{AC_{red} / DC_{red}}{AC_{ir} / DC_{ir}}        (2.2)
+---
+P290: จากนั้นจะนำค่า R ไปแปลงเป็นค่าความอิ่มตัวของออกซิเจนในเลือด (SpO2) ผ่านสมการเทียบมาตรฐานเชิงประจักษ์ ดังแสดงในสมการ (2.3)
+---
+P295: การตรวจจับการหกล้มด้วยเซนเซอร์วัดความเฉื่อย 6 แกน (MPU-6050) อาศัยการคำนวณค่าเวกเตอร์ความเร่งรวม (Signal Vector Magnitude: SVM) จากแกน X, Y, Z ดังแสดงในสมการ (2.4)
+---
+P296: SVM = \sqrt{a_x^2 + a_y^2 + a_z^2}        (2.4)
+---
+P301: ในการจำแนกระดับความรุนแรงของอาการผู้ป่วย โครงงานได้ศึกษาแบบจำลองการเรียนรู้ของเครื่อง เช่น Logistic Regression, Support Vector Machine (SVM), และ Random Forest Classifier ซึ่งทำการเรียนรู้จากเวกเตอร์คุณลักษณะที่ประกอบด้วยค่าสัญญาณชีพ (HR, SpO2, SBP, DBP, BT, RR, Pain Score) ร่วมกับเวกเตอร์ข้อความอาการสำคัญ การประเมินประสิทธิภาพของโมเดลใช้ตัวชี้วัด Accuracy, Precision, Recall, F1-Score, Confusion Matrix 5x5, และตัวชี้วัดเฉพาะทางการแพทย์ ได้แก่ Within-one-level Accuracy และ Route Accuracy เพื่อประเมินความปลอดภัยในการคัดแยกผู้ป่วย
+---
+P304: 1. AI Suggested Severity: ระดับความรุนแรงที่ระบบ AI และ Rule Engine เสนอแนะ พร้อมทั้งแสดงรายการเหตุผลประกอบอย่างโปร่งใส (Explainable AI Reasons เช่น "SpO2 < 90% และพบคำสำคัญเจ็บแน่นหน้าอก") เพื่อลดสภาวะกล่องดำ (Black-Box Problem)
+---
+P336: การตรวจวัดแรงดันแบตเตอรี่ใช้วงจรแบ่งแรงดัน (Voltage Divider) ความต้านทาน R1 = 100kΩ และ R2 = 100kΩ เพื่อลดทอนแรงดันแบตเตอรี่สูงสุด 4.2V ให้อยู่ในช่วงไม่เกิน 2.1V ก่อนป้อนเข้าสู่ช่อง ADC โดยคำนวณแรงดันจริงได้จากสมการ (3.1)
+---
+P346: 2) Signal Quality Index (SQI): ตรวจสอบความสม่ำเสมอของรูปคลื่น PPG และปฏิเสธค่า SpO2 หลอกที่ระดับ 70.0% ซึ่งเป็นค่า Unready Floor ของชิปเซนเซอร์
+---
+P358: 2) Clinical Rule-based Overrides: กฎเกณฑ์ทางการแพทย์ที่อยู่เหนือแบบจำลอง ML หากตรวจพบเงื่อนไขวิกฤต เช่น SpO2 < 90%, Shock Index > 0.9, อัตราการหายใจ > 30 ครั้ง/นาที หรือเกิดเหตุการณ์ Fall Detection ระบบจะบังคับยกระดับเป็น RED ทันที
+---
+P359: 3) Explainable AI Reasons Generator: ระบบจะสกัดเงื่อนไขที่ทำให้เกิดผลการคัดแยกออกมาเป็นข้อความที่มนุษย์เข้าใจได้ เช่น "[ระดับ PINK] เนื่องจาก SpO2 = 91% (ต่ำกว่าเกณฑ์ 92%) และมีอาการเจ็บแน่นหน้าอก" เพื่อแสดงบน Nurse Dashboard
+---
+P379: 1. การทดสอบความแม่นยำเซนเซอร์สัญญาณชีพ: เปรียบเทียบค่า HR, SpO2, Skin Temp, และ Estimated BP จาก Smartwatch กับเครื่องมือแพทย์มาตรฐานในกลุ่มตัวอย่าง 30 คน โดยคำนวณหาค่าความคลาดเคลื่อนสัมบูรณ์เฉลี่ย (Mean Absolute Error: MAE) ตามสมการ (3.2) และร้อยละความคลาดเคลื่อน (Percentage Error: PE) ตามสมการ (3.3)
+---
+P380: MAE = \frac{1}{N} \sum_{i=1}^{N} |V_{device, i} - V_{ref, i}|        (3.2)
+---
+P382: 2. การทดสอบการตรวจจับการหกล้ม: จำลองการหกล้มจริง 4 รูปแบบ (ล้มไปข้างหน้า ข้างหลัง ด้านข้าง และหมดสติทิ้งตัว) รวม 80 ครั้ง เทียบกับกิจกรรมประจำวัน (ADL) 60 ครั้ง เพื่อคำนวณ Sensitivity, Specificity และ Accuracy ตามสมการ (3.4)
+---
+P482: 2) ความแม่นยำของเซนเซอร์และการกรองสัญญาณ Edge: เซนเซอร์และอัลกอริทึม SQI สามารถวัด Heart Rate (MAE ±1.8 bpm, Error 1.65%), SpO2 (MAE ±1.1%, Error 1.22%), และ Skin Temperature (MAE ±0.3 °C) ได้อย่างแม่นยำเทียบเท่าเครื่องมือแพทย์มาตรฐาน
+---
+P510: Gilboy, N., Tanabe, P., Travers, D., & Rosenau, A. M. (2020). Emergency Severity Index (ESI): A Triage Tool for Emergency Department Care, Version 4. Implementation Handbook 2020 Edition. AHRQ Publication No. 20-0043.
+---
+P539: // FallDetector.cpp - Multi-Stage Fall Detection State Machine
+enum FallState { STATE_NORMAL, STATE_FREE_FALL, STATE_IMPACT, STATE_INACTIVITY };
+FallState currentState = STATE_NORMAL;
+unsigned long freeFallTime = 0;
+unsigned long impactTime = 0;
+
+bool checkFallDetection(float ax, float ay, float az) {
+    float svm = sqrt(ax*ax + ay*ay + az*az);
+    unsigned long now = millis();
+
+    switch(currentState) {
+        case STATE_NORMAL:
+            if (svm < 0.5) { // Free fall phase detected
+                currentState = STATE_FREE_FALL;
+                freeFallTime = now;
+            }
+            break;
+        case STATE_FREE_FALL:
+            if (now - freeFallTime > 1000) { // Timeout
+                currentState = STATE_NORMAL;
+            } else if (svm > 2.5) { // Impact phase detected
+                currentState = STATE_IMPACT;
+                impactTime = now;
+            }
+            break;
+        case STATE_IMPACT:
+            if (now - impactTime > 5000) { // Post-fall inactivity 5s
+                currentState = STATE_NORMAL;
+                return true; // Confirmed Fall Event Triggered
+            } else if (svm > 1.8) { // Movement detected (false alarm)
+                currentState = STATE_NORMAL;
+            }
+            break;
+    }
+    return false;
+}
+---
+P573: ประวัติการศึกษา:       สำเร็จการศึกษาระดับมัธยมศึกษาตอนปลายจาก โรงเรียนขอนแก่นวิทยายน
+                     ปัจจุบันกำลังศึกษาระดับปริญญาตรี หลักสูตรวิศวกรรมศาสตรบัณฑิต
+                     สาขาวิชาวิศวกรรมคอมพิวเตอร์ คณะวิศวกรรมศาสตร์
+                     มหาวิทยาลัยเทคโนโลยีราชมงคลอีสาน วิทยาเขตขอนแก่น
+---
+P579: ประวัติการศึกษา:       สำเร็จการศึกษาระดับมัธยมศึกษาตอนปลายจาก โรงเรียนสาธิตมหาวิทยาลัยขอนแก่น
+                     ปัจจุบันกำลังศึกษาระดับปริญญาตรี หลักสูตรวิศวกรรมศาสตรบัณฑิต
+                     สาขาวิชาวิศวกรรมคอมพิวเตอร์ คณะวิศวกรรมศาสตร์
+                     มหาวิทยาลัยเทคโนโลยีราชมงคลอีสาน วิทยาเขตขอนแก่น
+---
+
+=== TABLES WITH FORMULAS OR KEYWORDS ===
+Table 2 [R1, C0]: อัตราการเต้นของหัวใจ (Heart Rate: HR)
+Table 2 [R2, C0]: ความอิ่มตัวของออกซิเจน (SpO2)
+Table 2 [R6, C0]: ดัชนีช็อก (Shock Index: SI = HR/SBP)
+Table 3 [R3, C3]: มี Micro-DSP บรรจุเฟิร์มแวร์คำนวณ HR/SpO2/BP
+Table 5 [R1, C3]: I2C Bus (ส่งผ่านข้อมูลสัญญาณชีพ HR/SpO2/BP)
+Table 6 [R0, C1]: สูตรการคำนวณร้อยละความจุ (%)
+Table 10 [R0, C4]: ความคลาดเคลื่อนเฉลี่ย (MAE / %)
+Table 10 [R1, C0]: อัตราการเต้นหัวใจ (Heart Rate: HR)
+Table 10 [R1, C4]: 1.65 % (MAE ± 1.8 bpm)
+Table 10 [R2, C0]: ความอิ่มตัวออกซิเจน (SpO2)
+Table 10 [R2, C4]: 1.22 % (MAE ± 1.1 %)
+Table 10 [R3, C4]: 1.41 % (MAE ± 0.3 °C)
+Table 10 [R4, C4]: 3.85 % (MAE ± 4.5 mmHg)
+Table 10 [R5, C4]: 4.20 % (MAE ± 3.8 mmHg)
+Table 10 [R6, C4]: 2.10 % (MAE ± 0.03)
+Table 13 [R1, C1]: HR 132, SpO2 91%, SI 1.05
+Table 13 [R2, C1]: HR 88, SpO2 96%, SI 0.68
+Table 13 [R3, C1]: HR 104, SpO2 97%, SI 0.80
+Table 13 [R4, C1]: HR 72, SpO2 99%, SI 0.60
+Table 14 [R1, C2]: อุปกรณ์วัด HR, SpO2, Temp, Estimated BP และ Fall ได้จริง
+Table 17 [R0, C2]: HR มาตรฐาน
+Table 17 [R0, C3]: HR Smartwatch
+Table 17 [R0, C4]: SpO2 มาตรฐาน
+Table 17 [R0, C5]: SpO2 Smartwatch

@@ -1,0 +1,409 @@
+ระบบติดตามอาการผู้ป่วยและจัดการคิวพยาบาล
+PATIENT MONITORING AND QUEUE MANAGEMENT SYSTEM
+นายคณาธิปกรณ์  นามทะจัก
+นายนันธวัฒน์  ร้อยเพีย
+ปริญญานิพนธ์นี้เป็นส่วนหนึ่งของการศึกษาตามหลักสูตรวิศวกรรมศาสตรบัณฑิต
+สาขาวิชาวิศวกรรมคอมพิวเตอร์
+คณะวิศวกรรมศาสตร์และเทคโนโลยี
+มหาวิทยาลัยเทคโนโลยีราชมงคลอีสาน วิทยาเขตขอนแก่น
+ปีการศึกษา 2569
+ใบรับรองปริญญานิพนธ์
+หัวข้อปริญญานิพนธ์ ระบบติดตามอาการผู้ป่วยและจัดการคิวพยาบาล
+ผู้จัดทำ นายคณาธิปกรณ์ นามทะจัก และ นายนันธวัฒน์ ร้อยเพีย
+สาขาวิชา วิศวกรรมคอมพิวเตอร์
+อาจารย์ที่ปรึกษา [โปรดระบุชื่ออาจารย์ที่ปรึกษาที่ได้รับแต่งตั้ง]
+คณะกรรมการสอบปริญญานิพนธ์
+ชื่อ
+ตำแหน่ง
+อ.ดร.เฉลิมวุฒิ น้อยอุ่นแสน
+ประธานกรรมการ
+อ.ประสาน เอื้อทาน
+กรรมการ
+รองศาสตราจารย์ ดร.กฤษณะพงศ์ พันธ์ศรี
+กรรมการ
+อ.ดร.ปิยะนุช ตั้งกิตติพล
+กรรมการ
+หมายเหตุ: ช่องอาจารย์ที่ปรึกษายังไม่มีข้อมูลยืนยันในเอกสารต้นทาง จึงเว้นไว้เพื่อให้ผู้จัดทำกรอกก่อนส่งเล่ม
+บทคัดย่อ
+ปริญญานิพนธ์นี้พัฒนาระบบเว็บสำหรับลงทะเบียนผู้ป่วย บันทึกสัญญาณชีพ สนับสนุนการคัดแยกความรุนแรง 5 ระดับ จัดลำดับคิว และติดตามข้อมูลสัญญาณชีพจากอุปกรณ์ผ่าน API โดยใช้ Django และฐานข้อมูล PostgreSQL สำหรับสภาพแวดล้อมใช้งานจริง พร้อม SQLite สำหรับการพัฒนา ระบบปัญญาประดิษฐ์ใช้ Random Forest ร่วมกับข้อมูลเชิงตัวเลขและข้อความอาการด้วย TF–IDF เพื่อเสนอระดับ RED, PINK, YELLOW, GREEN หรือ WHITE ก่อนให้พยาบาลยืนยันหรือแก้ไขผลพร้อมบันทึกเหตุผล ผลการประเมินบนชุดทดสอบคงไว้ 254 ระเบียนให้ Accuracy ร้อยละ 61.42, Balanced Accuracy ร้อยละ 53.29 และ Macro F1 ร้อยละ 47 ส่วนการตรวจสอบไขว้แบบ 3 ส่วนบนข้อมูล 1,267 ระเบียนให้ Accuracy ร้อยละ 66.22, Balanced Accuracy ร้อยละ 59.56, Macro F1 ร้อยละ 56.93, ความถูกต้องของเส้นทางบริการร้อยละ 72.22 และผลคลาดเคลื่อนไม่เกินหนึ่งระดับร้อยละ 94.79 การทดสอบเฉพาะด้านการนำขึ้นใช้งานผ่าน 53 จาก 53 รายการ อย่างไรก็ดี ชุดทดสอบ Django ทั้งหมด 68 รายการผ่าน 53 รายการและเกิดข้อผิดพลาด 15 รายการจาก staticfiles manifest ที่ยังขาดรายการ css/app.css จึงยังไม่ถือว่าชุดทดสอบทั้งหมดผ่าน การทดสอบอุปกรณ์จริง รุ่นอุปกรณ์ การสอบเทียบ และประสิทธิภาพเครือข่ายยังไม่มีหลักฐานยืนยัน ขอบเขตผลในเล่มนี้จึงจำกัดที่ระบบฝั่งเซิร์ฟเวอร์ API โปรแกรมจำลอง และการทดสอบอัตโนมัติ
+คำสำคัญ: ระบบจัดการคิวผู้ป่วย, การคัดแยกผู้ป่วย, ปัญญาประดิษฐ์, Random Forest, อินเทอร์เน็ตของสรรพสิ่ง
+ABSTRACT
+This project develops a web-based patient registration, vital-sign recording, five-level triage decision-support, queue management, and IoT telemetry system. The application uses Django with PostgreSQL in deployment and SQLite for development. A Random Forest model combines numeric clinical variables with TF–IDF symptom text and recommends RED, PINK, YELLOW, GREEN, or WHITE; a nurse must confirm or override the recommendation. On a 254-record holdout set, the model achieved 61.42% accuracy, 53.29% balanced accuracy, and 47% macro F1. Three-fold cross-validation on 1,267 records achieved 66.22% accuracy, 59.56% balanced accuracy, 56.93% macro F1, 72.22% route accuracy, and 94.79% within-one-level accuracy. The targeted deployment suite passed 53 of 53 checks. The complete 68-test Django suite passed 53 tests and produced 15 errors caused by a missing staticfiles manifest entry for css/app.css, so the full suite is not reported as passing. No verified evidence is available for physical hardware models, calibration, network performance, or device trials; therefore, IoT findings are limited to the server API, simulator, and automated tests.
+Keywords: patient queue management, triage, artificial intelligence, Random Forest, Internet of Things
+สารบัญ
+บทที่ 17
+1.1 ความเป็นมาและความสำคัญของปัญหา7
+1.2 วัตถุประสงค์7
+1.3 ขอบเขตของโครงงาน8
+1.4 ตัวแปรและข้อมูลที่ใช้8
+1.5 ประโยชน์ที่คาดว่าจะได้รับ9
+1.6 นิยามศัพท์เฉพาะ9
+บทที่ 210
+2.1 การคัดแยกผู้ป่วย 5 ระดับ10
+2.2 Random Forest และข้อมูลไม่สมดุล10
+2.3 การแทนข้อความด้วย TF–IDF10
+2.4 การป้องกันข้อมูลรั่วไหล11
+2.5 ระบบติดตามสัญญาณชีพและ IoT11
+2.6 เทคโนโลยีเว็บและฐานข้อมูล11
+2.7 งานวิจัยที่เกี่ยวข้อง12
+บทที่ 313
+3.1 การวิเคราะห์ความต้องการ13
+3.2 กระบวนการทำงาน13
+3.3 สถาปัตยกรรมระบบ14
+3.4 การออกแบบข้อมูล14
+3.5 การเตรียมข้อมูล15
+3.6 การพัฒนาแบบจำลอง15
+3.7 การประเมิน16
+3.8 การทดสอบระบบ16
+3.9 จริยธรรมและการคุ้มครองข้อมูล16
+บทที่ 417
+4.1 ผลการพัฒนาระบบ17
+4.2 ผลการประเมินชุดทดสอบคงไว้17
+4.3 ผลการตรวจสอบไขว้ 3 ส่วน19
+4.4 ผลการทดสอบซอฟต์แวร์21
+4.5 ผลการทดสอบ API IoT21
+บทที่ 522
+5.1 สรุปผล22
+5.2 อภิปรายผล22
+5.3 ข้อจำกัด22
+5.4 ข้อเสนอแนะ23
+5.5 ข้อสรุปสุดท้าย24
+บรรณานุกรม25
+บทที่ 1
+บทนำ
+1.1 ความเป็นมาและความสำคัญของปัญหา
+การให้บริการผู้ป่วยนอกต้องเชื่อมโยงข้อมูลตั้งแต่การลงทะเบียน การวัดสัญญาณชีพ การคัดแยกความเร่งด่วน การเรียกคิว ไปจนถึงการติดตามอาการระหว่างรอ หากข้อมูลกระจายอยู่หลายจุด บุคลากรอาจมองเห็นสถานะล่าสุดได้ไม่ครบถ้วนและจัดลำดับผู้ป่วยได้ยาก งานทบทวนด้านการคัดแยกชี้ว่ากระบวนการ triage และการจัดลำดับงานมีผลต่อการไหลของผู้ป่วยและเวลารอ (Oredsson et al., 2011; Corkery et al., 2021)
+แนวคิดการคัดแยก 5 ระดับช่วยแบ่งความเร่งด่วนอย่างเป็นระบบ แต่ผลคัดแยกยังขึ้นกับข้อมูล อาการ บริบท และดุลยพินิจของบุคลากร ระบบเรียนรู้ของเครื่องจึงควรทำหน้าที่สนับสนุนการตัดสินใจ มิใช่แทนการวินิจฉัยหรืออำนาจตัดสินใจของพยาบาล (Hong et al., 2018; Raita et al., 2019; World Health Organization, 2021) โครงงานนี้จึงออกแบบให้ผลของ AI แยกจากผลที่พยาบาลยืนยัน และบังคับให้บันทึกเหตุผลเมื่อมีการแก้ไขระดับ
+อีกส่วนหนึ่งคือการรับข้อมูลสัญญาณชีพจากอุปกรณ์ผ่าน API เพื่อให้แดชบอร์ดแสดงค่าล่าสุดและสร้างสัญญาณเตือนสำหรับการประเมินซ้ำ แนวคิดการติดตามระยะไกลและ IoT สามารถเพิ่มความต่อเนื่องของข้อมูลได้ แต่ต้องคำนึงถึงความน่าเชื่อถือ ความปลอดภัย และขอบเขตการใช้ข้อมูลสุขภาพ (Islam et al., 2015; Malasinghe et al., 2019; พระราชบัญญัติคุ้มครองข้อมูลส่วนบุคคล พ.ศ. 2562)
+1.2 วัตถุประสงค์
+เพื่อพัฒนาระบบลงทะเบียนผู้ป่วยและจัดการคิวตามระดับความเร่งด่วน 5 ระดับ
+เพื่อพัฒนาแบบจำลอง Random Forest สำหรับเสนอระดับคัดแยกเบื้องต้นจากข้อมูลอาการและสัญญาณชีพ
+เพื่อพัฒนากระบวนการให้พยาบาลยืนยันหรือแก้ไขผล AI โดยคงผู้รับผิดชอบการตัดสินใจไว้ที่บุคลากร
+เพื่อพัฒนา API รับข้อมูลสัญญาณชีพและแดชบอร์ดสำหรับติดตามผู้ป่วยที่รอรับบริการ
+เพื่อประเมินแบบจำลองและตรวจสอบการทำงานของระบบด้วยชุดทดสอบที่มีหลักฐานในโครงการ
+1.3 ขอบเขตของโครงงาน
+ขอบเขตผู้ใช้งานครอบคลุมเจ้าหน้าที่ พยาบาล บุคลากรห้องตรวจ และผู้ป่วยที่ตรวจสอบสถานะคิวผ่านโทเคนติดตาม ระบบรองรับการลงทะเบียน การบันทึกสัญญาณชีพ การเสนอและยืนยันระดับคัดแยก การจัดลำดับคิว การเรียกเข้าห้องตรวจ การติดตามหลังตรวจ รายงานเวลารอ และ API สำหรับอุปกรณ์
+ระดับความรุนแรงประกอบด้วย RED วิกฤต, PINK ฉุกเฉิน, YELLOW เร่งด่วน, GREEN ไม่เร่งด่วน และ WHITE ผู้ป่วยทั่วไป RED และ PINK ถูกส่งต่อฉุกเฉิน ไม่เข้าสู่คิว OPD ปกติ; YELLOW สามารถเข้าสังเกตอาการและจับคู่อุปกรณ์; GREEN และ WHITE เข้าคิว OPD ตามลำดับ ระบบไม่มีแผนที่ติดตามตำแหน่งเป็นฟังก์ชันหลัก
+ขอบเขต IoT ที่ยืนยันได้คือ HTTP POST แบบ JSON การระบุ device_id การตรวจ X-API-Key การตรวจการจับคู่ที่ใช้งานอยู่ การจัดเก็บ telemetry และการซิงค์ค่าสัญญาณชีพ ไม่รวมการยืนยันรุ่นบอร์ด รุ่นเซนเซอร์ เฟิร์มแวร์ การต่อวงจร การสอบเทียบ หรือผลทดลองกับฮาร์ดแวร์จริง
+1.4 ตัวแปรและข้อมูลที่ใช้
+กลุ่มข้อมูล
+รายการ
+ข้อมูลพื้นฐาน
+อายุ
+สัญญาณชีพ
+RR, PR, SBP, DBP, BT, SpO2 และ pain score
+สภาวะผู้ป่วย
+altered mental status และ mental status
+ข้อความ
+chief complaint แปลงด้วย TF–IDF unigram/bigram
+ผลลัพธ์
+ระดับ RED, PINK, YELLOW, GREEN หรือ WHITE
+1.5 ประโยชน์ที่คาดว่าจะได้รับ
+ได้ต้นแบบระบบที่แสดงสถานะผู้ป่วยและคิวจากจุดเดียว
+ช่วยให้พยาบาลเห็นข้อเสนอของ AI พร้อมเหตุผลประกอบก่อนยืนยันผล
+ได้กลไกรับ telemetry และแจ้งให้ประเมินซ้ำเมื่อพบค่าผิดปกติ
+ได้หลักฐานประเมินที่แสดงทั้งจุดแข็ง ข้อจำกัด และงานที่ต้องปรับปรุงก่อนใช้จริง
+1.6 นิยามศัพท์เฉพาะ
+คำ
+ความหมายในโครงงาน
+AI triage
+ข้อเสนอระดับความรุนแรงจากแบบจำลอง ไม่ใช่ผลวินิจฉัย
+Nurse-confirmed severity
+ระดับสุดท้ายที่พยาบาลยืนยันหรือแก้ไข
+Route accuracy
+ความถูกต้องเมื่อรวมระดับที่ใช้เส้นทางบริการเดียวกันตามนิยามในโครงการ
+Within-one-level accuracy
+สัดส่วนผลทำนายที่ตรงหรือคลาดเคลื่อนไม่เกินหนึ่งระดับ
+Telemetry
+ข้อมูลสัญญาณชีพที่ส่งเข้าระบบผ่าน API
+บทที่ 2
+ทฤษฎีและงานวิจัยที่เกี่ยวข้อง
+2.1 การคัดแยกผู้ป่วย 5 ระดับ
+ระบบคัดแยก 5 ระดับมีจุดมุ่งหมายเพื่อแยกผู้ป่วยที่ต้องช่วยชีวิตทันทีออกจากผู้ป่วยที่สามารถรอได้ โดยอาศัยภาพรวมของอาการ สัญญาณชีพ ความเสี่ยง และทรัพยากรที่คาดว่าจะใช้ คู่มือ Emergency Severity Index อธิบายโครงสร้างการตัดสินใจแบบหลายระดับ ขณะที่งานวิจัย KTAS แสดงความสำคัญของความสอดคล้องและความถูกต้องของผู้ประเมิน (Gilboy et al., 2011; Kwon et al., 2019; Choi et al., 2019)
+โครงงานใช้ชื่อสี RED, PINK, YELLOW, GREEN และ WHITE เป็นชั้นผลลัพธ์ และใช้กฎป้องกันความเสี่ยงร่วมกับผลแบบจำลอง การกำหนดสีในซอฟต์แวร์เป็นการปรับใช้เพื่อการศึกษา ไม่ควรนำเกณฑ์ค่าเดียวไปตีความเป็นคำวินิจฉัย
+2.2 Random Forest และข้อมูลไม่สมดุล
+Random Forest เป็นวิธีรวมต้นไม้ตัดสินใจจำนวนมากโดยสุ่มตัวอย่างข้อมูลและคุณลักษณะ ช่วยลดความแปรปรวนและรองรับความสัมพันธ์ไม่เชิงเส้น (Breiman, 2001) อย่างไรก็ตามข้อมูลคัดแยกมักไม่สมดุล โดยเฉพาะชั้นวิกฤตที่มีจำนวนน้อย จึงต้องพิจารณาค่าความถูกต้องสมดุล ค่าเฉลี่ยแบบ macro และผลรายชั้นควบคู่กับ accuracy (He & Garcia, 2009)
+2.3 การแทนข้อความด้วย TF–IDF
+ข้อความอาการสำคัญถูกแปลงเป็นเวกเตอร์ด้วย TF–IDF ซึ่งให้น้ำหนักคำตามความถี่ในเอกสารและความหายากเมื่อเทียบกับชุดเอกสารทั้งหมด โครงงานใช้ทั้ง unigram และ bigram เพื่อรักษาข้อมูลวลีบางส่วน (Salton & Buckley, 1988)
+2.4 การป้องกันข้อมูลรั่วไหล
+ข้อมูลรั่วไหลเกิดเมื่อคุณลักษณะฝึกมีสารสนเทศที่เกิดหลังผลลัพธ์หรือสัมพันธ์โดยตรงกับฉลาก ทำให้ตัวชี้วัดสูงเกินจริง (Kaufman et al., 2012) โครงงานจึงตัด KTAS_expert, KTAS_RN, Error_group, mistriage, Diagnosis in ED, Disposition, Length of stay_min และ KTAS duration_min ออกจากคุณลักษณะ
+2.5 ระบบติดตามสัญญาณชีพและ IoT
+สถาปัตยกรรม IoT ด้านสุขภาพเชื่อมอุปกรณ์ เครือข่าย บริการประมวลผล และส่วนแสดงผล การใช้จริงต้องตรวจสอบความถูกต้องของเซนเซอร์ ความต่อเนื่องของการส่งข้อมูล การยืนยันตัวตน และการจัดการเหตุขัดข้อง (Islam et al., 2015; Malasinghe et al., 2019) ในโครงงานนี้จึงจำกัดข้อสรุปเฉพาะ API และโปรแกรมจำลองจนกว่าจะมีหลักฐานอุปกรณ์จริง
+2.6 เทคโนโลยีเว็บและฐานข้อมูล
+Django ใช้แนวคิด model–template–view ร่วมกับระบบ URL routing, authentication, ORM และ testing framework (Django Software Foundation, 2026) โครงงานใช้ PostgreSQL ในการนำขึ้นใช้งาน และใช้ SQLite เป็นทางเลือกสำหรับการพัฒนาภายในเครื่อง
+2.7 งานวิจัยที่เกี่ยวข้อง
+งาน
+สาระสำคัญ
+ความเกี่ยวข้อง
+Moon et al. (2019)
+เปรียบเทียบ ML กับวิธีดั้งเดิมสำหรับคาดการณ์การรับเข้า/ผลลัพธ์จากข้อมูลคัดแยก
+เป็นที่มาชุดข้อมูล KTAS ที่ใช้
+Hong et al. (2018)
+ทำนายการรับไว้รักษาจากข้อมูล triage
+สนับสนุนการใช้ ML เป็น decision support
+Raita et al. (2019)
+ประเมิน ML สำหรับ critical care และ hospitalization
+ย้ำการรายงานหลายตัวชี้วัด
+Oredsson et al. (2011)
+ทบทวนวิธีเพิ่ม patient flow
+เชื่อมการคัดแยกกับเวลารอ
+Corkery et al. (2021)
+team triage กับ throughput
+ชี้บทบาทกระบวนการและทีม
+บทที่ 3
+วิธีดำเนินงาน
+3.1 การวิเคราะห์ความต้องการ
+ความต้องการหลักได้จากเอกสารโครงการ ซอร์สโค้ด และหลักฐานการทดสอบ ประกอบด้วยการแยกบทบาทผู้ใช้ การเก็บข้อมูลผู้ป่วยและ visit การบันทึก vital signs การสร้างคำแนะนำ AI การยืนยันโดยพยาบาล การจัดลำดับคิวตาม priority และเวลา การติดตาม telemetry และการออกรายงาน
+3.2 กระบวนการทำงาน
+ลงทะเบียนผู้ป่วยและสร้าง Visit / Queue
+↓
+พยาบาลบันทึกอาการและสัญญาณชีพ
+↓
+แบบจำลองเสนอระดับ + กฎป้องกันความเสี่ยง
+↓
+พยาบาลยืนยันหรือแก้ไขพร้อมเหตุผล
+↓
+ส่งต่อฉุกเฉิน / สังเกตอาการ / คิว OPD
+รูปที่ 3.1 กระบวนการคัดแยกและจัดเส้นทางบริการ
+3.3 สถาปัตยกรรมระบบ
+เว็บเบราว์เซอร์ของเจ้าหน้าที่และผู้ป่วย
+↓
+Django: patients / queues / OPD / dashboard / accounts
+↓
+AI pipeline + rule guardrails + IoT API
+↓
+PostgreSQL (deployment) / SQLite (development)
+↓
+อุปกรณ์หรือโปรแกรมจำลองส่ง JSON ผ่าน HTTP
+รูปที่ 3.2 สถาปัตยกรรมเชิงตรรกะของระบบ
+3.4 การออกแบบข้อมูล
+เอนทิตี
+หน้าที่
+Patient
+ข้อมูลผู้ป่วยและตัวระบุ HN
+Visit
+เหตุการณ์รับบริการและระดับสุดท้าย
+VitalSign
+สัญญาณชีพหนึ่งชุดล่าสุดต่อ visit
+TriageResult
+ผล AI ผลพยาบาล confidence และเหตุผล
+Queue
+สถานะ ลำดับความสำคัญ และห้องตรวจ
+Device / DeviceAssignment
+อุปกรณ์และการจับคู่ที่ใช้งาน
+TelemetryLog / IoTVital
+ประวัติข้อมูลที่รับจากอุปกรณ์
+CriticalAlert
+สัญญาณเตือนและการรับทราบ
+3.5 การเตรียมข้อมูล
+ใช้ไฟล์ ai_triage/data/triage_dataset.csv จากชุดข้อมูล Emergency Service – Triage Application ของ Yıldız ซึ่งเชื่อมโยงกับงานของ Moon et al. (2019) หลังทำความสะอาดเหลือ 1,267 ระเบียน ไฟล์มีขนาด 128,674 ไบต์ และค่า SHA-256 เท่ากับ 0E2C088E358FD4CDFD0DCC2FD4C2F085AA303856E3A6DF8CEB44A69CEF8ED2DE ไม่มีแถวข้อมูลที่พยาบาลในระบบยืนยันเพิ่มเติมในหลักฐานที่ตรวจสอบ
+รูปที่ 3.3 การกระจายชั้นข้อมูลหลังทำความสะอาด
+3.6 การพัฒนาแบบจำลอง
+แบ่งข้อมูลแบบ stratified train_test_split โดยใช้ test_size 0.20 และ random_state 42 ได้ชุดฝึก 1,013 ระเบียนและชุดทดสอบ 254 ระเบียน แบบจำลองชื่อ RandomForestClassifier_5Level_RuntimeFeatures_v3 กำหนด n_estimators=600, max_depth=None, max_features='sqrt', min_samples_leaf=2, class_weight='balanced_subsample' และ random_state=42
+3.7 การประเมิน
+รายงาน accuracy, balanced accuracy, precision, recall และ F1 ทั้งรายชั้น macro และ weighted พร้อม confusion matrix ใช้การตรวจสอบไขว้ StratifiedKFold จำนวน 3 ส่วน โดย shuffle=True และ random_state=42 นอกจากนี้รายงาน route accuracy และ within-one-level accuracy ตามนิยามของโครงการ
+3.8 การทดสอบระบบ
+ตรวจสอบชุดทดสอบเฉพาะด้าน deployment, health check ของฐานข้อมูล เว็บ และ Caddy, API smoke test และชุดทดสอบ Django ทั้งหมด ผลทุกส่วนรายงานตามสถานะจริง รวมถึงข้อผิดพลาด staticfiles manifest โดยไม่ตีความว่าเป็นความล้มเหลวของตรรกะธุรกิจ 15 กรณีแยกจากกัน
+3.9 จริยธรรมและการคุ้มครองข้อมูล
+ข้อมูลสุขภาพเป็นข้อมูลส่วนบุคคลที่มีความอ่อนไหว การพัฒนาและสาธิตต้องจำกัดสิทธิ์ แยกข้อมูลที่ผู้ป่วยเห็นผ่าน tracking token ไม่เปิดเผยชื่อ อาการ หรือระดับความรุนแรงผ่าน endpoint สาธารณะ และไม่เผยแพร่ภาพหน้าจอที่มีข้อมูลระบุตัวบุคคล ทั้งนี้ต้องดำเนินการตามพระราชบัญญัติคุ้มครองข้อมูลส่วนบุคคล พ.ศ. 2562 และหลักธรรมาภิบาล AI ทางสุขภาพ (World Health Organization, 2021)
+บทที่ 4
+ผลการดำเนินงาน
+4.1 ผลการพัฒนาระบบ
+ระบบที่พัฒนามีโมดูลลงทะเบียนผู้ป่วย รายการรอวัดสัญญาณชีพ รายการรอยืนยันผลคัดแยก คิวที่ยืนยันแล้ว การเรียกเข้าห้องตรวจ การติดตามก่อนและหลัง OPD การจับคู่อุปกรณ์ แดชบอร์ด รายงานเวลารอ และ API สำหรับผู้ป่วยและ IoT สถานะคิวเริ่มที่ WAITING_VITALS เปลี่ยนเป็น WAITING_CONFIRMATION หลังมีข้อเสนอ AI และเปลี่ยนตามระดับที่พยาบาลยืนยัน
+ระดับ
+Priority
+เส้นทาง
+RED
+1
+EMERGENCY_TRANSFER
+PINK
+2
+EMERGENCY_TRANSFER
+YELLOW
+3
+WAITING_QUEUE หรือ OBSERVATION_MONITORING
+GREEN
+4
+WAITING_QUEUE
+WHITE
+5
+WAITING_QUEUE
+4.2 ผลการประเมินชุดทดสอบคงไว้
+ตัวชี้วัด
+ผล
+Accuracy
+61.42%
+Balanced Accuracy
+53.29%
+Macro Precision
+47%
+Macro Recall
+53%
+Macro F1
+47%
+Weighted Precision / Recall / F1
+60% / 61% / 60%
+ชั้น
+Precision
+Recall
+F1
+Support
+RED
+.31
+.80
+.44
+5
+PINK
+.52
+.39
+.44
+44
+YELLOW
+.64
+.69
+.67
+98
+GREEN
+.68
+.72
+.70
+92
+WHITE
+.20
+.07
+.10
+15
+รูปที่ 4.1 Confusion matrix ของชุดทดสอบคงไว้ (ลำดับ WHITE, GREEN, YELLOW, PINK, RED)
+ผลแสดงว่าแบบจำลองจำแนก GREEN และ YELLOW ได้ดีกว่าชั้นอื่น ขณะที่ WHITE มี recall ต่ำ และ RED แม้ recall สูงแต่มี support เพียง 5 ระเบียน ทำให้ค่ารายชั้นยังไม่เสถียร จึงไม่ควรใช้ accuracy เพียงค่าเดียวสรุปความพร้อมทางคลินิก
+4.3 ผลการตรวจสอบไขว้ 3 ส่วน
+ตัวชี้วัด
+ผล
+Accuracy
+66.22%
+Balanced Accuracy
+59.56%
+Macro Precision
+58.00%
+Macro Recall
+60.00%
+Macro F1
+56.93%
+Route Accuracy
+72.22%
+Within-one-level Accuracy
+94.79%
+ชั้น
+Precision
+Recall
+F1
+Support
+RED
+.44
+.77
+.56
+26
+PINK
+.61
+.54
+.57
+220
+YELLOW
+.66
+.73
+.69
+487
+GREEN
+.73
+.71
+.72
+459
+WHITE
+.44
+.23
+.30
+75
+รูปที่ 4.2 Confusion matrix จากการตรวจสอบไขว้ 3 ส่วน
+ค่า accuracy จาก cross-validation ต่ำกว่าเป้าหมายร้อยละ 75 ที่โครงการตั้งไว้ จึงสรุปว่าเป้าหมายด้านความถูกต้องยังไม่บรรลุ แม้ผล within-one-level จะสูง การไม่มีค่าราย fold ที่บันทึกไว้ทำให้ยังวิเคราะห์ความแปรปรวนระหว่าง fold ไม่ได้
+4.4 ผลการทดสอบซอฟต์แวร์
+รายการ
+ผล
+ข้อสรุป
+Targeted deployment suite
+53/53 ผ่าน
+ผ่านตามขอบเขตที่เลือก
+DB/Web/Caddy health checks
+ผ่าน
+บริการตอบสนอง
+API smoke test
+ผ่าน
+เส้นทางหลักตอบสนอง
+Full Django suite
+53 ผ่าน, 15 error จาก 68
+ยังไม่ผ่านทั้งหมด
+สาเหตุร่วม 15 error
+ขาด staticfiles manifest entry: css/app.css
+ต้องแก้ packaging/configuration แล้วรันทดสอบใหม่
+ข้อผิดพลาด 15 รายการเกิดระหว่างการ render template ที่อ้าง static asset ซึ่งไม่มีใน manifest จึงยังไม่มีหลักฐานว่าความผิดพลาดทั้ง 15 เป็น assertion ของตรรกะธุรกิจ แต่ตราบใดที่ suite ยังจบด้วยสถานะ fail ก็ไม่ควรอ้างว่าระบบผ่านการทดสอบทั้งหมด
+4.5 ผลการทดสอบ API IoT
+API รับ JSON จากอุปกรณ์โดยตรวจ device_id, X-API-Key และ active pairing เมื่อข้อมูลถูกต้องจะบันทึก IoTVital หรือ TelemetryLog และซิงค์ VitalSign กรณีไม่จับคู่ตอบ 409 และข้อมูลยืนยันตัวตนไม่ถูกต้องตอบ 401 หรือ 403 ข้อมูลผิดปกติของผู้ป่วย YELLOW ทำให้เกิดการแจ้งเตือนเพื่อให้พยาบาลประเมินซ้ำ โดยไม่เปลี่ยนผลคัดแยกอัตโนมัติ
+ยังไม่มีผลการทดสอบด้วยอุปกรณ์กายภาพ การสอบเทียบ ความหน่วง อัตราสูญหายของแพ็กเก็ต หรือภาพอุปกรณ์ที่ยืนยันได้ ดังนั้นผลส่วนนี้เป็นผลระดับเซิร์ฟเวอร์ API โปรแกรมจำลอง และ automated tests เท่านั้น
+บทที่ 5
+สรุปผล อภิปรายผล และข้อเสนอแนะ
+5.1 สรุปผล
+โครงงานได้ต้นแบบเว็บที่เชื่อมการลงทะเบียน สัญญาณชีพ AI ช่วยคัดแยก การยืนยันโดยพยาบาล การจัดลำดับคิว และ telemetry เข้าด้วยกัน ระบบรองรับ 5 ระดับและกำหนดเส้นทาง RED/PINK ไปฉุกเฉิน YELLOW ไปสังเกตอาการได้ และ GREEN/WHITE เข้าคิว OPD ผลประเมินยืนยันว่าระบบทำงานตามชุดทดสอบเฉพาะ 53 รายการ แต่แบบจำลองยังไม่ถึงเป้าหมาย accuracy ร้อยละ 75 และชุดทดสอบทั้งหมดติดข้อผิดพลาด staticfiles 15 รายการ
+5.2 อภิปรายผล
+ความไม่สมดุลของชั้นข้อมูลสัมพันธ์กับผลรายชั้น โดย RED และ WHITE มีตัวอย่างน้อยกว่า GREEN และ YELLOW อย่างชัดเจน ผล holdout ของ RED มี recall .80 แต่ support เพียง 5 จึงมีความไม่แน่นอนสูง ส่วน WHITE มี recall .07 แสดงความเสี่ยงต่อการทำนายเป็นชั้นที่เร่งด่วนกว่า การรายงาน balanced accuracy และ macro F1 จึงเหมาะกว่าการพิจารณา accuracy ค่าเดียว ซึ่งสอดคล้องกับข้อเสนอด้านการเรียนรู้จากข้อมูลไม่สมดุล (He & Garcia, 2009)
+การคงพยาบาลไว้ในวงจรตัดสินใจช่วยลดความเสี่ยงจากข้อผิดพลาดของแบบจำลอง และสอดคล้องกับหลักการกำกับดูแล AI สุขภาพ (World Health Organization, 2021) อย่างไรก็ดี กระบวนการนี้จะประเมินได้ครบถ้วนเมื่อมีข้อมูลการยืนยันและการ override จากการใช้งานจริง ซึ่งหลักฐานปัจจุบันยังมีจำนวนศูนย์แถว
+5.3 ข้อจำกัด
+ข้อมูลมี 1,267 ระเบียนและมีความไม่สมดุล โดย RED มี 26 และ WHITE มี 75 ระเบียน
+ไม่มีข้อมูลพยาบาลยืนยันจากระบบจริงสำหรับฝึกหรือประเมินเพิ่มเติม
+ไม่มีตัวชี้วัดราย fold จึงยังประเมินความแปรปรวนของ cross-validation ไม่ได้
+full Django test suite ยัง fail จาก staticfiles manifest
+ยังไม่มีหลักฐานรุ่นอุปกรณ์ เฟิร์มแวร์ การสอบเทียบ การทดลองฮาร์ดแวร์จริง ความหน่วง และ packet loss
+ระบบเป็นต้นแบบเพื่อการศึกษา ไม่ผ่านการรับรองสำหรับตัดสินใจทางคลินิก
+5.4 ข้อเสนอแนะ
+แก้ staticfiles manifest และรันชุดทดสอบทั้งหมดให้ผ่าน 68/68 พร้อมเก็บ log เวอร์ชันสุดท้าย
+บันทึกผลราย fold ค่าเฉลี่ย ส่วนเบี่ยงเบนมาตรฐาน และช่วงความเชื่อมั่น
+เพิ่มข้อมูลที่ผ่านการทบทวนโดยบุคลากรและประเมินภายนอกกับบริบทโรงพยาบาลเป้าหมาย
+จัดทำ confusion matrix และรายงาน calibration รวมถึงวิเคราะห์ผลผิดพลาดใน RED/WHITE
+ระบุรุ่นฮาร์ดแวร์และเฟิร์มแวร์ จัดทำขั้นตอนสอบเทียบ แล้วทดลองอย่างน้อย 10–30 รอบตามแผนโครงการ
+ทดสอบ latency, packet loss, การส่งซ้ำ, การหมดอายุของ API key และเหตุการณ์อุปกรณ์หลุดจากการจับคู่
+จัดทำการประเมินผลกระทบด้านข้อมูลส่วนบุคคลและกำหนด retention/access control ก่อนใช้ข้อมูลจริง
+5.5 ข้อสรุปสุดท้าย
+ระบบแสดงแนวทางเชื่อม AI และ IoT กับงานคิวโดยให้บุคลากรเป็นผู้ตัดสินใจสุดท้ายได้อย่างเป็นรูปธรรม หลักฐานปัจจุบันเพียงพอสำหรับสาธิตต้นแบบและอภิปรายผลเชิงวิศวกรรม แต่ยังไม่เพียงพอสำหรับอ้างความพร้อมใช้งานทางคลินิก การพัฒนารอบถัดไปควรให้ความสำคัญกับการแก้ชุดทดสอบทั้งหมด การเก็บข้อมูลภาคสนามที่ได้รับอนุญาต และการทดสอบฮาร์ดแวร์อย่างตรวจสอบย้อนกลับได้
+บรรณานุกรม
+พระราชบัญญัติคุ้มครองข้อมูลส่วนบุคคล พ.ศ. 2562. (2562). ราชกิจจานุเบกษา, 136(69 ก), 52–95. https://ratchakitcha.soc.go.th/documents/17082307.pdf
+Breiman, L. (2001). Random forests. Machine Learning, 45, 5–32. https://doi.org/10.1023/A:1010933404324
+Choi, H. J., Ok, J. S., & An, S. Y. (2019). Evaluation of validity of the Korean Triage and Acuity Scale. Journal of Korean Academy of Nursing, 49(1), 26–35. https://doi.org/10.4040/jkan.2019.49.1.26
+Corkery, N., Avsar, P., Moore, Z., O'Connor, T., Nugent, L., & Patton, D. (2021). What is the impact of team triage as an intervention on waiting times in an adult emergency department? International Emergency Nursing, 58, 101043. https://doi.org/10.1016/j.ienj.2021.101043
+Django Software Foundation. (2026). Django documentation (Version 6.0). https://docs.djangoproject.com/en/6.0/
+Gilboy, N., Tanabe, P., Travers, D., & Rosenau, A. M. (2011). Emergency Severity Index (ESI): A triage tool for emergency department care, version 4: Implementation handbook, 2012 edition. Agency for Healthcare Research and Quality.
+He, H., & Garcia, E. A. (2009). Learning from imbalanced data. IEEE Transactions on Knowledge and Data Engineering, 21(9), 1263–1284. https://doi.org/10.1109/TKDE.2008.239
+Hong, W. S., Haimovich, A. D., & Taylor, R. A. (2018). Predicting hospital admission at the emergency department triage: A novel prediction model. PLOS ONE, 13(8), e0201016. https://doi.org/10.1371/journal.pone.0201016
+Islam, S. M. R., Kwak, D., Kabir, M. H., Hossain, M., & Kwak, K. S. (2015). The Internet of Things for health care: A comprehensive survey. IEEE Access, 3, 678–708. https://doi.org/10.1109/ACCESS.2015.2437951
+Kaufman, S., Rosset, S., Perlich, C., & Stitelman, O. (2012). Leakage in data mining: Formulation, detection, and avoidance. ACM Transactions on Knowledge Discovery from Data, 6(4), Article 15. https://doi.org/10.1145/2382577.2382579
+Kwon, H., Kim, Y. J., Jo, Y. H., Lee, J. H., Lee, J. H., Kim, J., Hwang, J. E., & Jeong, J. (2019). The Korean Triage and Acuity Scale: Associations with admission, disposition, mortality and length of stay in the emergency department. International Journal for Quality in Health Care, 31(6), 449–455. https://doi.org/10.1093/intqhc/mzy184
+Malasinghe, L. P., Ramzan, N., & Dahal, K. (2019). Remote patient monitoring: A comprehensive study. Journal of Ambient Intelligence and Humanized Computing, 10, 57–76. https://doi.org/10.1007/s12652-017-0598-x
+Moon, S. H., Shim, J. L., Park, K. S., & Park, C. S. (2019). Triage accuracy and causes of mistriage using the Korean Triage and Acuity Scale. PLOS ONE, 14(9), e0216972. https://doi.org/10.1371/journal.pone.0216972
+Oredsson, S., Jonsson, H., Rognes, J., Lind, L., Göransson, K. E., Ehrenberg, A., Asplund, K., Castrén, M., & Farrohknia, N. (2011). A systematic review of triage-related interventions to improve patient flow in emergency departments. Scandinavian Journal of Trauma, Resuscitation and Emergency Medicine, 19, 43. https://doi.org/10.1186/1757-7241-19-43
+Raita, Y., Goto, T., Faridi, M. K., Brown, D. F. M., Camargo, C. A., Jr., & Hasegawa, K. (2019). Emergency department triage prediction of clinical outcomes using machine learning models. Critical Care, 23, 64. https://doi.org/10.1186/s13054-019-2351-7
+Salton, G., & Buckley, C. (1988). Term-weighting approaches in automatic text retrieval. Information Processing & Management, 24(5), 513–523. https://doi.org/10.1016/0306-4573(88)90021-0
+World Health Organization. (2021). Ethics and governance of artificial intelligence for health. World Health Organization. https://www.who.int/publications/i/item/9789240029200
+Yıldız, İ. (n.d.). Emergency Service – Triage Application [Data set]. Kaggle. https://www.kaggle.com/datasets/ilkeryildiz/emergency-service-triage-application
+ภาคผนวก ก
+หลักฐานและรายการที่ต้องยืนยันก่อนส่งเล่ม
+รายการ
+สถานะ ณ วันที่จัดทำฉบับร่าง
+Repository
+https://github.com/bfirstkok/Project_hospital_queue
+Commit ที่ใช้อ้างอิง
+e324684e5dfaea6e35e08a1fc851ad706c17c395
+Dataset SHA-256
+0E2C088E358FD4CDFD0DCC2FD4C2F085AA303856E3A6DF8CEB44A69CEF8ED2DE
+อาจารย์ที่ปรึกษา
+ยังไม่มีข้อมูลยืนยันในเอกสารต้นทาง
+ฮาร์ดแวร์/เซนเซอร์
+ยังไม่มีรุ่น เฟิร์มแวร์ การสอบเทียบ และผลทดลองจริง
+Full Django tests
+53 ผ่าน, 15 error จาก 68; ต้องแก้ manifest แล้วรันทดสอบใหม่
+ภาคผนวกนี้มีไว้ป้องกันการนำข้อมูลที่ยังไม่ยืนยันไปกรอกเป็นข้อเท็จจริงในเล่มฉบับส่ง ก่อนส่งเล่ม ผู้จัดทำควรแทนที่ช่องอาจารย์ที่ปรึกษา เพิ่มหลักฐานฮาร์ดแวร์ (ถ้ามี) และอัปเดตผลทดสอบหลังแก้ไขระบบ

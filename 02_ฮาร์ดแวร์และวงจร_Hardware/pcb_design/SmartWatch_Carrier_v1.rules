@@ -1,0 +1,44 @@
+
+(rules PCB SmartWatch_Carrier_v1.dsn
+  (snap_angle 
+    fortyfive_degree
+  )
+  (rule
+    (width 250.0)
+    (clearance 150.0)
+    (clearance 125.0 (type smd_to_turn_gap))
+    (clearance 37.6 (type smd))
+    (clearance 500.0 (type "board_edge"))
+  )
+  (padstack "Via[0-1]_600:300_um"
+    (shape
+      (circle F.Cu 600.0 0.0 0.0)
+    )
+    (shape
+      (circle B.Cu 600.0 0.0 0.0)
+    )
+    (attach off)
+  )
+  (via 
+    "Via[0-1]_600:300_um" "Via[0-1]_600:300_um" default
+  )
+  (via_rule
+    default "Via[0-1]_600:300_um"
+  )
+  (via_rule
+    default "Via[0-1]_600:300_um"
+  )
+  (class default
+    "5V_SYS" "3V3_SYS" "GND_SYS" "BAT_RAW+" "BAT_OUT+" "SW_IN" "BAT_SW+" "5V_BOOST"
+    "ADC_BAT" "HUB_MFIO" "HUB_RESET" "I2C_SDA" "I2C_SCL" "TFT_DC" "TFT_RST" "TFT_SCK"
+    "TFT_MOSI" "BUZZER_CTL" "Q1_BASE" "BUZZER_NEG"
+    (clearance_class default)
+    (via_rule default)
+    (rule
+      (width 250.0)
+    )
+    (circuit 
+      (use_layer F.Cu B.Cu)
+    )
+  )
+)
